@@ -11,14 +11,21 @@ using System.Windows.Shapes;
 
 namespace mangapp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : Window
+	{
+		public MainWindow()
+		{
+			InitializeComponent();
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			// Nous activons la ligne ci-dessous en enlevant les "//" 
+			// pour charger la page Rechercher dans votre Frame
+			MonCadreNavigation.Navigate(new Rechercher());
+		}
+	}
 }
