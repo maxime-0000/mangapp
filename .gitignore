@@ -1,0 +1,29 @@
+# Fichiers générés lors de la compilation
+bin/
+obj/
+ 
+# Fichiers propres à Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+ 
+# Fichiers temporaires
+*.tmp
+*.temp
+*.log
+ 
+# Fichiers de débogage
+*.pdb
+ 
+# Dossiers de publication
+publish/
+ 
+# Packages NuGet
+*.nupkg
+packages/
+ 
+# Fichiers temporaires de Windows
+Thumbs.db
+Desktop.ini
