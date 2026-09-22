@@ -112,7 +112,7 @@
 			</StackPanel>
 
 			<!-- Logo MangAPP en bas à gauche -->
-			<Image Source="Images/logo.png"
+			<Image Source="Images/logo-mangapp.png"
                    Width="210"
                    Height="160"
                    Stretch="Uniform"
