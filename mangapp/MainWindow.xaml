@@ -138,6 +138,12 @@
 					<Button Content="Accueil" Click="BtnAccueil" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
 
 					<Button Content="Rechercher" Click="BtnRechercher" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
+
+					<Button Content="Statistique" Click="BtnStats" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
+
+					<Button Content="Inscrpition" Click="BtnInscription" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
+
+
 				</StackPanel>
 
 				<!-- Contenu dynamique à droite -->
