@@ -32,5 +32,15 @@ namespace mangapp
 			MainFrame.Content = null;
 		}
 
+		private void BtnStats(object sender, RoutedEventArgs e)
+		{
+			MainFrame.Navigate(new Statistique());
+		}
+
+		private void BtnInscription(object sender, RoutedEventArgs e)
+		{
+			MainFrame.Navigate(new Inscription());
+		}
+
 	}
 }
