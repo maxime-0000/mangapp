@@ -18,7 +18,7 @@ namespace mangapp
             this.nom = nom;
             this.mdp = mdp;
             this.email = email;
-            this.type_utilisateur = 1;
+            this.type_utilisateur = type_utilisateur;
         }
     }
 }
