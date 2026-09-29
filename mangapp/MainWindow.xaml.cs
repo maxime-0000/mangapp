@@ -29,7 +29,7 @@ namespace mangapp
 
 		private void BtnAccueil(object sender, RoutedEventArgs e)
 		{
-			MainFrame.Navigate(new MainWindow());
+			MainFrame.Content = null;
 		}
 
 	}

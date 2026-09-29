@@ -135,7 +135,7 @@
 					<TextBlock Text="Mon App" Foreground="White" FontSize="20" Margin="20" HorizontalAlignment="Center"/>
 
 					<!-- Boutons de navigation -->
-					<Button Content="Rechercher" Click="BtnAccueil" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
+					<Button Content="Accueil" Click="BtnAccueil" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
 
 					<Button Content="Rechercher" Click="BtnRechercher" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
 				</StackPanel>
