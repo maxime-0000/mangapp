@@ -23,20 +23,7 @@ namespace mangapp
             InitializeComponent();
         }
 
-		private void BtnAccueil(object sender, RoutedEventArgs e)
-		{
-            // Retour à la page précédente si possible
-            if (this.NavigationService != null && this.NavigationService.CanGoBack)
-            {
-                this.NavigationService.GoBack();
-            }
-            else
-            {
-                // Si aucune page précédente, fermer la fenêtre principale ou naviguer vers une page par défaut
-                // Exemple : naviguer vers une nouvelle instance de MainWindow n'est pas adapté ici (MainWindow est une Window)
-                // On laisse l'action vide pour éviter l'erreur de compilation
-            }
-		}
+
 
 
 	}
