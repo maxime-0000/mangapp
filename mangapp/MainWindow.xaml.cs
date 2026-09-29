@@ -19,13 +19,15 @@ namespace mangapp
 		public MainWindow()
 		{
 			InitializeComponent();
+
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void BtnRechercher(object sender, RoutedEventArgs e)
 		{
-			// Nous activons la ligne ci-dessous en enlevant les "//" 
-			// pour charger la page Rechercher dans votre Frame
-			MonCadreNavigation.Navigate(new Rechercher());
+			MainFrame.Navigate(new Rechercher());
 		}
+
+
+
 	}
 }
