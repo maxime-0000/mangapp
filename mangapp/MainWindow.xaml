@@ -36,89 +36,18 @@
                     VerticalAlignment="Top"
                     Margin="310,173,0,0"/>
 
-			<!-- Menu de navigation -->
-			<StackPanel Width="230"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Margin="0,204,0,0">
 
-				<!-- Rechercher -->
-				<Grid Height="109"
-                      Margin="0,0,0,32">
 
-					<Polygon Points="0,0 173,0 230,54 173,109 0,109"
-                             Fill="#F8F9FF"/>
 
-					<TextBlock Text="RECHERCHER"
-                               FontFamily="Impact"
-                               FontSize="23"
-                               Foreground="Black"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Margin="0,0,20,0"/>
+			<Grid>
+				<!-- Cet élément sera en arrière-plan -->
+				<Rectangle Width="210" Height="160" Panel.ZIndex="1" />
 
-				</Grid>
-
-				<!-- Stock -->
-				<Grid Height="109"
-                      Margin="0,0,0,32">
-
-					<Polygon Points="0,0 173,0 230,54 173,109 0,109"
-                             Fill="#F8F9FF"/>
-
-					<TextBlock Text="STOCK"
-                               FontFamily="Impact"
-                               FontSize="23"
-                               Foreground="Black"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Margin="0,0,20,0"/>
-
-				</Grid>
-
-				<!-- Statistiques -->
-				<Grid Height="109"
-                      Margin="0,0,0,32">
-
-					<Polygon Points="0,0 173,0 230,54 173,109 0,109"
-                             Fill="#F8F9FF"/>
-
-					<TextBlock Text="STATISTIQUES"
-                               FontFamily="Impact"
-                               FontSize="23"
-                               Foreground="Black"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Margin="0,0,20,0"/>
-
-				</Grid>
-
-				<!-- Inscription -->
-				<Grid Height="109">
-
-					<Polygon Points="0,0 173,0 230,54 173,109 0,109"
-                             Fill="#F8F9FF"/>
-
-					<TextBlock Text="INSCRIPTION"
-                               FontFamily="Impact"
-                               FontSize="23"
-                               Foreground="Black"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Margin="0,0,20,0"/>
-
-				</Grid>
-
-			</StackPanel>
-
-			<!-- Logo MangAPP en bas à gauche -->
-			<Image Source="Images/logo.png"
-                   Width="210"
-                   Height="160"
-                   Stretch="Uniform"
-                   HorizontalAlignment="Left"
+				<!-- L'image passe au premier plan grâce au ZIndex plus élevé -->
+				<Image Source="Images/logo-mangapp.png" Width="216" Height="195" Panel.ZIndex="2"                    HorizontalAlignment="Left"
                    VerticalAlignment="Bottom"
-                   Margin="10,0,0,55"/>
+                   Margin="0,0,0,62"/>
+			</Grid>
 
 
 			<Grid>
@@ -130,18 +59,22 @@
 				</Grid.ColumnDefinitions>
 
 				<!-- Barre de navigation latérale -->
-				<StackPanel Grid.Column="0" Background="#2C3E50">
+				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,0,312">
 					<!-- Logo ou Titre -->
-					<TextBlock Text="Mon App" Foreground="White" FontSize="20" Margin="20" HorizontalAlignment="Center"/>
+					<TextBlock Text="Mangapp" Foreground="Black" FontSize="20" Margin="50" HorizontalAlignment="Center"/>
 
 					<!-- Boutons de navigation -->
-					<Button Content="Accueil" Click="BtnAccueil" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
 
-					<Button Content="Rechercher" Click="BtnRechercher" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
 
-					<Button Content="Statistique" Click="BtnStats" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
 
-					<Button Content="Inscrpition" Click="BtnInscription" Background="Transparent" Foreground="White" BorderThickness="0" Padding="15"/>
+					<!-- fin  test -->
+					<Button Content="Accueil"  FontSize="15" Click="BtnAccueil" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+					<Button Content="Rechercher" FontSize="15" Click="BtnRechercher" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+					<Button Content="Statistique" FontSize="15" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+					<Button Content="Inscrpition" FontSize="15" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
 
 				</StackPanel>

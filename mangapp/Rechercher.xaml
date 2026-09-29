@@ -10,15 +10,22 @@
 
 
 
-	<Grid Background="#F8F9FF">
-		<TextBlock Text="ZONE DE RECHERCHE" 
-                   FontFamily="Impact" 
-                   FontSize="28" 
-                   Foreground="Black" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Top" 
-                   Margin="0,30,0,0"/>
+	<Grid >
+		<Border Width="113"
+        Height="803"
+        Background="#F8F9FF"
+        CornerRadius="12"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Margin="310,173,0,0">
 
+		<TextBlock Text="Recherche" 
+               FontFamily="Segoe UI" 
+               FontSize="16" 
+               Foreground="#333333"
+               
+               VerticalAlignment="Center"/>
+		</Border>
 
 	</Grid>
 
