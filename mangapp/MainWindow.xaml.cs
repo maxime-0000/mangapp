@@ -27,7 +27,10 @@ namespace mangapp
 			MainFrame.Navigate(new Rechercher());
 		}
 
-
+		private void BtnAccueil(object sender, RoutedEventArgs e)
+		{
+			MainFrame.Navigate(new MainWindow());
+		}
 
 	}
 }
