@@ -8,6 +8,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Rechercher">
 
+
+
 	<Grid Background="#F8F9FF">
 		<TextBlock Text="ZONE DE RECHERCHE" 
                    FontFamily="Impact" 
@@ -16,5 +18,8 @@
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Top" 
                    Margin="0,30,0,0"/>
+
+
 	</Grid>
+
 </Page>
