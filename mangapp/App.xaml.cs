@@ -16,7 +16,7 @@ namespace mangapp
             {
                 // Appel direct à bdd.Configure avec chaîne de connexion en dur (exemple).
                 // Remplacez par vos valeurs réelles ou utilisez une variable d'environnement en production.
-                bdd.Configure("Server=192.168.56.10;Port=3306;Database=mangapp;User=etudiant;Password=etudiant;");
+                bdd.Configure("Server=172.16.119.3;Port=3306;Database=mangapp;User=etudiant;Password=etudiant;");
             }
             catch (Exception ex)
             {
