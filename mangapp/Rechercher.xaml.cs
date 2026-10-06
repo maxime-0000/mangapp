@@ -23,6 +23,30 @@ namespace mangapp
             InitializeComponent();
         }
 
+        private async void BtnAfficherTous_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var list = await bdd.GetAllMangaAsync();
+                LstMangas.Items.Clear();
+                if (list.Count == 0)
+                {
+                    MessageBox.Show("Aucun manga trouvé.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    foreach (var m in list)
+                    {
+                        LstMangas.Items.Add(m.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de la récupération des mangas : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
 
 
 

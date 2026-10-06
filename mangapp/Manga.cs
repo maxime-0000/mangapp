@@ -4,26 +4,30 @@ using System.Text;
 
 namespace mangapp
 {
-    class Manga
+    public class Manga
     {
-        private string nom {  get; set; }
-        private int id_manga { get; set; }
-        private DateTime année { get; set; }
-        private double prix { get; set; }
-        private int quantité { get; set; }
-        private int tome {  get; set; }
+        public string Nom { get; set; }
+        public int Id { get; set; }
+        public DateTime Annee { get; set; }
+        public double Prix { get; set; }
+        public int Quantite { get; set; }
+        public int Tome { get; set; }
 
+        public Manga() { }
 
-        public Manga(string nom, int id_manga, DateTime année, double prix, int quantité, int tome)
-
+        public Manga(string nom, int id, DateTime annee, double prix, int quantite, int tome)
         {
-            this.nom = nom;
-            this.id_manga = id_manga;
-            this.année = année;
-            this.prix = prix;
-            this.quantité = quantité;
-            this.tome = tome;
+            Nom = nom;
+            Id = id;
+            Annee = annee;
+            Prix = prix;
+            Quantite = quantite;
+            Tome = tome;
         }
 
+        public override string ToString()
+        {
+            return $"{Nom} (Id={Id}) - {Annee:yyyy} - {Prix}€ - Qte:{Quantite} - Tome:{Tome}";
+        }
     }
 }
