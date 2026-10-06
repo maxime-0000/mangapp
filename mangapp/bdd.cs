@@ -31,36 +31,50 @@ namespace mangapp
         public static void ConfigureFromEnvironment(string envVarName = "DEFAULT_CONN")
         {
             var cs = Environment.GetEnvironmentVariable(envVarName);
+
             if (string.IsNullOrEmpty(cs))
                 throw new InvalidOperationException($"Variable d'environnement '{envVarName}' introuvable ou vide.");
 
             Configure(cs);
         }
 
-        // Retourne et ouvre une connexion MySql asynchrone. L'appelant doit disposer (Dispose) la connexion.
+        // Retourne et ouvre une connexion MySql asynchrone.
+        // L'appelant doit disposer (Dispose) la connexion.
         public static async Task<MySqlConnection> GetOpenConnectionAsync()
         {
             if (string.IsNullOrEmpty(_connectionString))
-                throw new InvalidOperationException("Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage.");
+                throw new InvalidOperationException(
+                    "Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage."
+                );
 
             var conn = new MySqlConnection(_connectionString);
             await conn.OpenAsync();
+
             return conn;
         }
 
-        // Récupère tous les mangas depuis la table 'manga'.
+        // ============================================================
+        // VUE GLOBALE DES MANGAS
+        // ============================================================
+
+        // Récupère tous les mangas depuis la table 'Manga'.
         public static async Task<System.Collections.Generic.List<Manga>> GetAllMangaAsync()
         {
             var list = new System.Collections.Generic.List<Manga>();
 
             await using var conn = await GetOpenConnectionAsync();
             await using var cmd = conn.CreateCommand();
+
             cmd.CommandText = "SELECT * FROM Manga";
 
             await using var reader = await cmd.ExecuteReaderAsync();
 
             // Construire un mapping des colonnes disponibles
-            var columnMap = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            var columnMap =
+                new System.Collections.Generic.Dictionary<string, int>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+
             for (int i = 0; i < reader.FieldCount; i++)
             {
                 columnMap[reader.GetName(i)] = i;
@@ -68,14 +82,29 @@ namespace mangapp
 
             while (await reader.ReadAsync())
             {
-				string nom = TryGetString(reader, columnMap, "nom") ?? TryGetString(reader, columnMap, "title") ?? "";
-				int id = TryGetInt(reader, columnMap, "Id_Manga") ?? TryGetInt(reader, columnMap, "id") ?? 0;
+                string nom =
+                    TryGetString(reader, columnMap, "nom")
+                    ?? TryGetString(reader, columnMap, "title")
+                    ?? "";
 
-                // 1. On essaie de lire un DateTime directement, sinon on lit une année (int) et on construit un DateTime (1er janvier)
-                DateTime? anneeDt = TryGetDateTime(reader, columnMap, "année") ?? TryGetDateTime(reader, columnMap, "annee");
+                int id =
+                    TryGetInt(reader, columnMap, "Id_Manga")
+                    ?? TryGetInt(reader, columnMap, "id")
+                    ?? 0;
+
+                // On essaie de lire un DateTime directement,
+                // sinon on lit une année et on construit un DateTime.
+                DateTime? anneeDt =
+                    TryGetDateTime(reader, columnMap, "année")
+                    ?? TryGetDateTime(reader, columnMap, "annee");
+
                 if (!anneeDt.HasValue)
                 {
-                    int anneeInt = TryGetInt(reader, columnMap, "année") ?? TryGetInt(reader, columnMap, "annee") ?? DateTime.Now.Year;
+                    int anneeInt =
+                        TryGetInt(reader, columnMap, "année")
+                        ?? TryGetInt(reader, columnMap, "annee")
+                        ?? DateTime.Now.Year;
+
                     try
                     {
                         anneeDt = new DateTime(anneeInt, 1, 1);
@@ -86,46 +115,226 @@ namespace mangapp
                         anneeDt = new DateTime(DateTime.Now.Year, 1, 1);
                     }
                 }
+
                 DateTime anneeDateTime = anneeDt.Value;
 
-				double prix = TryGetDouble(reader, columnMap, "prix") ?? 0.0;
-				int qte = TryGetInt(reader, columnMap, "quantité") ?? TryGetInt(reader, columnMap, "quantite") ?? TryGetInt(reader, columnMap, "quantity") ?? 0;
-				int tome = TryGetInt(reader, columnMap, "tome") ?? 0;
+                double prix =
+                    TryGetDouble(reader, columnMap, "prix")
+                    ?? 0.0;
 
-				// 3. On passe maintenant l'objet DateTime attendu par votre constructeur
-				var m = new Manga(nom, id, anneeDateTime, prix, qte, tome);
-				list.Add(m);
-			}
+                int qte =
+                    TryGetInt(reader, columnMap, "quantité")
+                    ?? TryGetInt(reader, columnMap, "quantite")
+                    ?? TryGetInt(reader, columnMap, "quantity")
+                    ?? 0;
+
+                int tome =
+                    TryGetInt(reader, columnMap, "tome")
+                    ?? 0;
+
+                var m = new Manga(
+                    nom,
+                    id,
+                    anneeDateTime,
+                    prix,
+                    qte,
+                    tome
+                );
+
+                list.Add(m);
+            }
 
             return list;
         }
 
-        private static string? TryGetString(MySqlDataReader r, System.Collections.Generic.IDictionary<string, int> map, string key)
+        // ============================================================
+        // STOCK D'UN MANGA PRÉCIS
+        // ============================================================
+
+        public static async Task<string> GetStockMangaAsync(int idManga)
         {
-            if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx)) return r.GetString(idx);
+            await using var conn = await GetOpenConnectionAsync();
+            await using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                SELECT quantité
+                FROM Manga
+                WHERE Id_Manga = @idManga;
+            ";
+
+            cmd.Parameters.AddWithValue("@idManga", idManga);
+
+            object? resultat = await cmd.ExecuteScalarAsync();
+
+            // Le manga n'existe pas
+            if (resultat == null || resultat == DBNull.Value)
+            {
+                return "Manga introuvable";
+            }
+
+            int quantite = Convert.ToInt32(resultat);
+
+            // Plus aucun exemplaire
+            if (quantite == 0)
+            {
+                return "Rupture de stock";
+            }
+
+            // Entre 1 et 3 exemplaires
+            if (quantite <= 3)
+            {
+                return "Stock faible";
+            }
+
+            // Plus de 3 exemplaires
+            return "Stock suffisant";
+        }
+
+        // ============================================================
+        // VUE GLOBALE DES ZONES
+        // ============================================================
+
+        public static async Task<System.Collections.Generic.List<Zones>> GetAllZonesAsync()
+        {
+            var zones = new System.Collections.Generic.List<Zones>();
+
+            await using var conn = await GetOpenConnectionAsync();
+            await using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                SELECT Id_Zones, libelle, capacité_max
+                FROM Zones;
+            ";
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                int idZone =
+                    Convert.ToInt32(reader["Id_Zones"]);
+
+                string libelle =
+                    Convert.ToString(reader["libelle"]) ?? "";
+
+                int capaciteMax =
+                    Convert.ToInt32(reader["capacité_max"]);
+
+                var zone = new Zones(
+                    idZone,
+                    libelle,
+                    capaciteMax
+                );
+
+                zones.Add(zone);
+            }
+
+            return zones;
+        }
+
+        // ============================================================
+        // STOCK D'UNE ZONE PRÉCISE
+        // ============================================================
+
+        public static async Task<string> GetStockZoneAsync(int idZone)
+        {
+            await using var conn = await GetOpenConnectionAsync();
+            await using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                SELECT
+                    z.capacité_max,
+                    COALESCE(SUM(m.quantité), 0) AS stock_actuel
+                FROM Zones z
+                LEFT JOIN Manga m
+                    ON m.Id_Zones = z.Id_Zones
+                WHERE z.Id_Zones = @idZone
+                GROUP BY z.Id_Zones, z.capacité_max;
+            ";
+
+            cmd.Parameters.AddWithValue("@idZone", idZone);
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+
+            // La zone n'existe pas
+            if (!await reader.ReadAsync())
+            {
+                return "Zone introuvable";
+            }
+
+            int capaciteMax =
+                Convert.ToInt32(reader["capacité_max"]);
+
+            int stockActuel =
+                Convert.ToInt32(reader["stock_actuel"]);
+
+            // Aucun manga dans la zone
+            if (stockActuel == 0)
+            {
+                return "Zone vide";
+            }
+
+            // La zone est remplie à 25 % ou moins
+            if (stockActuel <= capaciteMax * 0.25)
+            {
+                return "Stock faible";
+            }
+
+            return "Stock suffisant";
+        }
+
+        // ============================================================
+        // MÉTHODES UTILITAIRES
+        // ============================================================
+
+        private static string? TryGetString(
+            MySqlDataReader r,
+            System.Collections.Generic.IDictionary<string, int> map,
+            string key)
+        {
+            if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx))
+                return r.GetString(idx);
+
             return null;
         }
 
-        private static int? TryGetInt(MySqlDataReader r, System.Collections.Generic.IDictionary<string, int> map, string key)
+        private static int? TryGetInt(
+            MySqlDataReader r,
+            System.Collections.Generic.IDictionary<string, int> map,
+            string key)
         {
-            if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx)) return Convert.ToInt32(r.GetValue(idx));
+            if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx))
+                return Convert.ToInt32(r.GetValue(idx));
+
             return null;
         }
 
-        private static double? TryGetDouble(MySqlDataReader r, System.Collections.Generic.IDictionary<string, int> map, string key)
+        private static double? TryGetDouble(
+            MySqlDataReader r,
+            System.Collections.Generic.IDictionary<string, int> map,
+            string key)
         {
-            if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx)) return Convert.ToDouble(r.GetValue(idx));
+            if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx))
+                return Convert.ToDouble(r.GetValue(idx));
+
             return null;
         }
 
-        private static DateTime? TryGetDateTime(MySqlDataReader r, System.Collections.Generic.IDictionary<string, int> map, string key)
+        private static DateTime? TryGetDateTime(
+            MySqlDataReader r,
+            System.Collections.Generic.IDictionary<string, int> map,
+            string key)
         {
             if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx))
             {
                 var v = r.GetValue(idx);
-                if (v is DateTime dt) return dt;
-                if (DateTime.TryParse(Convert.ToString(v), out var parsed)) return parsed;
+
+                if (v is DateTime dt)
+                    return dt;
+
+                if (DateTime.TryParse(Convert.ToString(v), out var parsed))
+                    return parsed;
             }
+
             return null;
         }
 
@@ -133,10 +342,13 @@ namespace mangapp
         public static MySqlConnection GetOpenConnection()
         {
             if (string.IsNullOrEmpty(_connectionString))
-                throw new InvalidOperationException("Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage.");
+                throw new InvalidOperationException(
+                    "Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage."
+                );
 
             var conn = new MySqlConnection(_connectionString);
             conn.Open();
+
             return conn;
         }
     }
