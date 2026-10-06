@@ -9,6 +9,59 @@
       Title="Inscription">
 
     <Grid>
-        
+        <Border Width="113"
+                Height="803"
+                Background="#F8F9FF"
+                CornerRadius="12"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="310,173,0,0">
+
+            <!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
+            <StackPanel Margin="10">
+
+                <!-- ================= NAVBAR (TEXTBLOC CLIQUABLES) ================= -->
+                <TextBlock Text="Accueil" 
+                           FontFamily="Segoe UI" 
+                           FontSize="14" 
+                           Foreground="#2C3E50"
+                           HorizontalAlignment="Center"
+                           Cursor="Hand"
+                           Margin="0,5,0,10"/>
+
+                <TextBlock Text="Paramètres" 
+                           FontFamily="Segoe UI" 
+                           FontSize="14" 
+                           Foreground="#2C3E50"
+                           HorizontalAlignment="Center"
+                           Cursor="Hand"
+                           Margin="0,0,0,15"/>
+
+                <!-- Ligne de séparation sous votre navbar -->
+                <Separator Background="#E0E0E0" Margin="0,0,0,15"/>
+
+
+                <!-- ================= VOTRE FORMULAIRE D'ORIGINE ================= -->
+                <!-- Élément 1 : Votre texte de titre -->
+                <TextBlock Text="Recherche" 
+                           FontFamily="Segoe UI" 
+                           FontSize="16" 
+                           Foreground="#333333"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,15"/>
+
+                <!-- Élément 2 : Première zone de saisie (ex: Nom) -->
+                <TextBox Width="93" Text=""
+                         Height="30" 
+                         Margin="0,0,0,10"
+                         VerticalContentAlignment="Center"/>
+
+                <!-- Élément 3 : Deuxième zone de saisie (ex: Prénom) -->
+                <TextBox Width="93" Text=""
+                         Height="30"
+                         VerticalContentAlignment="Center"/>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>
