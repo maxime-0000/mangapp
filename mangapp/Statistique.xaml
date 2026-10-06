@@ -9,15 +9,60 @@
       Title="Statistique">
 
 
-        <Grid Background="#F8F9FF">
-	<TextBlock Text="ZONE DE STATISTIQUE" 
-               FontFamily="Impact" 
-               FontSize="28" 
-               Foreground="Black" 
-               HorizontalAlignment="Center" 
-               VerticalAlignment="Top" 
-               Margin="0,30,0,0"/>
+
+    <Grid>
+        <Border Width="279"
+                Height="803"
+                Background="#F8F9FF"
+                CornerRadius="12"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="191,173,0,0">
+
+            <!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
+            <StackPanel Margin="10">
+
+                <!-- ================= NAVBAR (TEXTBLOC CLIQUABLES) ================= -->
+                <TextBlock Text="Statistiques" 
+                           FontFamily="Segoe UI" 
+                           FontSize="44" 
+                           Foreground="#2C3E50"
+                           HorizontalAlignment="Center"
+                           Cursor="Hand"
+                           Margin="0,5,0,10"/>
+
+                <!-- Ligne de séparation sous votre navbar -->
+                <Separator Background="#E0E0E0" Margin="0,0,0,15"/>
 
 
+                <!-- ================= VOTRE FORMULAIRE D'ORIGINE ================= -->
+                <!-- Élément 1 : Votre texte de titre -->
+                <TextBlock Text="Titre" 
+                           FontFamily="Segoe UI" 
+                           FontSize="36" 
+                           Foreground="#333333"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,15"/>
+
+                <!-- Élément 2 : Première zone de saisie (ex: Nom) -->
+                <TextBox Width="93" Text=""
+                         Height="30" 
+                         Margin="0,0,0,10"
+                         VerticalContentAlignment="Center"/>
+
+                <TextBlock Text="Zone" 
+                           FontFamily="Segoe UI" 
+                           FontSize="36" 
+                           Foreground="#333333"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,15"/>
+
+                <!-- Élément 3 : Deuxième zone de saisie (ex: Prénom) -->
+                <TextBox Width="93" Text=""
+                         Height="30"
+                         VerticalContentAlignment="Center"/>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>
