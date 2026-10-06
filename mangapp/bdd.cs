@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Globalization;
 using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 
@@ -38,8 +39,7 @@ namespace mangapp
             Configure(cs);
         }
 
-        // Retourne et ouvre une connexion MySql asynchrone.
-        // L'appelant doit disposer (Dispose) la connexion.
+
         public static async Task<MySqlConnection> GetOpenConnectionAsync()
         {
             if (string.IsNullOrEmpty(_connectionString))
@@ -53,11 +53,7 @@ namespace mangapp
             return conn;
         }
 
-        // ============================================================
-        // VUE GLOBALE DES MANGAS
-        // ============================================================
 
-        // Récupère tous les mangas depuis la table 'Manga'.
         public static async Task<System.Collections.Generic.List<Manga>> GetAllMangaAsync()
         {
             var list = new System.Collections.Generic.List<Manga>();
@@ -147,9 +143,7 @@ namespace mangapp
             return list;
         }
 
-        // ============================================================
-        // STOCK D'UN MANGA PRÉCIS
-        // ============================================================
+
 
         public static async Task<string> GetStockMangaAsync(int idManga)
         {
@@ -303,7 +297,26 @@ namespace mangapp
             string key)
         {
             if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx))
-                return Convert.ToInt32(r.GetValue(idx));
+            {
+                var v = r.GetValue(idx);
+
+                if (v is int i) return i;
+                if (v is long l) return Convert.ToInt32(l);
+                if (v is short s) return Convert.ToInt32(s);
+                if (v is decimal dec) return Convert.ToInt32(dec);
+                if (v is double d) return Convert.ToInt32(d);
+
+                var str = Convert.ToString(v)?.Trim();
+                if (string.IsNullOrEmpty(str)) return null;
+
+                // Try strict integer parse (invariant culture)
+                if (int.TryParse(str, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedInt))
+                    return parsedInt;
+
+                // Try parsing as floating value then convert to int
+                if (double.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var parsedDouble))
+                    return Convert.ToInt32(parsedDouble);
+            }
 
             return null;
         }
@@ -314,7 +327,25 @@ namespace mangapp
             string key)
         {
             if (map.TryGetValue(key, out var idx) && !r.IsDBNull(idx))
-                return Convert.ToDouble(r.GetValue(idx));
+            {
+                var v = r.GetValue(idx);
+
+                if (v is double dd) return dd;
+                if (v is float f) return Convert.ToDouble(f);
+                if (v is decimal dec) return Convert.ToDouble(dec);
+                if (v is int ii) return Convert.ToDouble(ii);
+
+                var str = Convert.ToString(v)?.Trim();
+                if (string.IsNullOrEmpty(str)) return null;
+
+                // Try parse with invariant culture (accepts '.' as decimal)
+                if (double.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var parsed))
+                    return parsed;
+
+                // Fallback to current culture (some DBs return numbers with comma)
+                if (double.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out parsed))
+                    return parsed;
+            }
 
             return null;
         }
@@ -351,5 +382,6 @@ namespace mangapp
 
             return conn;
         }
+
     }
 }
