@@ -1,68 +1,171 @@
 ﻿<Page x:Class="mangapp.Statistique"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:mangapp"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
+      d:DesignHeight="900"
+      d:DesignWidth="1200"
       Title="Statistique">
 
+    <Grid Background="Transparent">
 
-
-    <Grid>
-        <Border Width="279"
+        <Border Width="407"
                 Height="803"
                 Background="#F8F9FF"
                 CornerRadius="12"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="191,173,0,0">
+                Margin="118,173,0,0">
 
-            <!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
-            <StackPanel Margin="10">
+            <StackPanel Margin="8">
 
-                <!-- ================= NAVBAR (TEXTBLOC CLIQUABLES) ================= -->
-                <TextBlock Text="Statistiques" 
-                           FontFamily="Segoe UI" 
-                           FontSize="44" 
+                <!-- ================================================= -->
+                <!-- TITRE -->
+                <!-- ================================================= -->
+
+                <TextBlock Text="Statistiques"
+                           FontFamily="Segoe UI"
+                           FontSize="38"
                            Foreground="#2C3E50"
                            HorizontalAlignment="Center"
-                           Cursor="Hand"
-                           Margin="0,5,0,10"/>
+                           Margin="0,0,0,5"/>
 
-                <!-- Ligne de séparation sous votre navbar -->
-                <Separator Background="#E0E0E0" Margin="0,0,0,15"/>
+                <Separator Background="#E0E0E0"
+                           Margin="0,0,0,12"/>
 
 
-                <!-- ================= VOTRE FORMULAIRE D'ORIGINE ================= -->
-                <!-- Élément 1 : Votre texte de titre -->
-                <TextBlock Text="Titre" 
-                           FontFamily="Segoe UI" 
-                           FontSize="36" 
+                <!-- ================================================= -->
+                <!-- MANGAS -->
+                <!-- ================================================= -->
+
+                <TextBlock Text="Stock des mangas"
+                           FontFamily="Segoe UI"
+                           FontSize="26"
+                           FontWeight="SemiBold"
                            Foreground="#333333"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,15"/>
+                           Margin="0,0,0,8"/>
 
-                <!-- Élément 2 : Première zone de saisie (ex: Nom) -->
-                <TextBox Width="93" Text=""
-                         Height="30" 
-                         Margin="0,0,0,10"
-                         VerticalContentAlignment="Center"/>
 
-                <TextBlock Text="Zone" 
-                           FontFamily="Segoe UI" 
-                           FontSize="36" 
+                <!-- Recherche d'un manga précis -->
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,8">
+
+                    <TextBlock Text="ID Manga :"
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0"/>
+
+                    <TextBox x:Name="txtIdManga"
+                             Width="90"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,0,10,0"/>
+
+                    <Button Content="Vérifier le stock"
+                            Width="135"
+                            Height="30"
+                            Click="VerifierManga_Click"/>
+
+                </StackPanel>
+
+
+                <!-- Résultat manga précis -->
+
+                <TextBlock x:Name="lblStockManga"
+                           Text=""
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,8"/>
+
+
+                <!-- Vue globale mangas -->
+
+                <Button Content="Vue globale des mangas"
+                        Width="188"
+                        Height="30"
+                        HorizontalAlignment="Left"
+                        Click="AfficherMangas_Click"
+                        Margin="0,0,0,8"/>
+
+
+                <DataGrid x:Name="dgMangas"
+                          Height="185"
+                          AutoGenerateColumns="True"
+                          IsReadOnly="True"
+                          Margin="0,0,0,12"/>
+
+
+                <!-- ================================================= -->
+                <!-- ZONES -->
+                <!-- ================================================= -->
+
+                <Separator Background="#E0E0E0"
+                           Margin="0,0,0,12"/>
+
+
+                <TextBlock Text="Stock des zones"
+                           FontFamily="Segoe UI"
+                           FontSize="26"
+                           FontWeight="SemiBold"
                            Foreground="#333333"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,15"/>
+                           Margin="0,0,0,8"/>
 
-                <!-- Élément 3 : Deuxième zone de saisie (ex: Prénom) -->
-                <TextBox Width="93" Text=""
-                         Height="30"
-                         VerticalContentAlignment="Center"/>
+
+                <!-- Recherche d'une zone précise -->
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,8">
+
+                    <TextBlock Text="ID Zone :"
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0"/>
+
+                    <TextBox x:Name="txtIdZone"
+                             Width="90"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,0,10,0"/>
+
+                    <Button Content="Vérifier le stock"
+                            Width="135"
+                            Height="30"
+                            Click="VerifierZone_Click"/>
+
+                </StackPanel>
+
+
+                <!-- Résultat zone précise -->
+
+                <TextBlock x:Name="lblStockZone"
+                           Text=""
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,8"/>
+
+
+                <!-- Vue globale zones -->
+
+                <Button Content="Vue globale des zones"
+                        Width="188"
+                        Height="30"
+                        HorizontalAlignment="Left"
+                        Click="AfficherZones_Click"
+                        Margin="0,0,0,8"/>
+
+
+                <DataGrid x:Name="dgZones"
+                          Height="185"
+                          AutoGenerateColumns="True"
+                          IsReadOnly="True"/>
 
             </StackPanel>
+
         </Border>
+
     </Grid>
+
 </Page>

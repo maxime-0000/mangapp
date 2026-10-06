@@ -6,9 +6,9 @@ namespace mangapp
 {
     public class Zones
     {
-        private int id_zone { get; set; }
-        private string libele { get; set; }
-        private int capacité_max { get; set; }
+        public int id_zone { get; private set; }
+        public string libele { get; private set; }
+        public int capacité_max { get; private set; }
 
         public Zones (int id_zone, string libele, int capacité_max)
         {
