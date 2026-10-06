@@ -9,13 +9,12 @@
       Title="Inscription">
 
     <Grid>
-        <Border Width="113"
-                Height="803"
+        <Border Width="378"
+                Height="874"
                 Background="#F8F9FF"
                 CornerRadius="12"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="310,173,0,0">
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
 
             <!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
             <StackPanel Margin="10">
@@ -43,7 +42,7 @@
 
                 <!-- ================= VOTRE FORMULAIRE D'ORIGINE ================= -->
                 <!-- Élément 1 : Votre texte de titre -->
-                <TextBlock Text="Recherche" 
+                <TextBlock Text="Utilisateur" 
                            FontFamily="Segoe UI" 
                            FontSize="16" 
                            Foreground="#333333"
@@ -56,9 +55,42 @@
                          Margin="0,0,0,10"
                          VerticalContentAlignment="Center"/>
 
+                <TextBlock Text="Mot de Passe" 
+                           FontFamily="Segoe UI"
+                           FontSize="16" 
+                           Foreground="#333333"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,15"/>
+
+                <!-- Élément 2 : Première zone de saisie (ex: Nom) -->
+                <TextBox Width="93" Text=""
+                            Height="30" 
+                            Margin="0,0,0,10"
+                            VerticalContentAlignment="Center"/>
+
+                <TextBlock Text="Confirmation de Mot de Passe" 
+                            FontFamily="Segoe UI"
+                            FontSize="16" 
+                            Foreground="#333333"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,15" Width="217"/>
+
                 <!-- Élément 3 : Deuxième zone de saisie (ex: Prénom) -->
                 <TextBox Width="93" Text=""
                          Height="30"
+                         VerticalContentAlignment="Center"/>
+
+                <TextBlock Text="Mail" 
+                            FontFamily="Segoe UI" 
+                            FontSize="16" 
+                            Foreground="#333333"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,15"/>
+
+                <!-- Élément 2 : Première zone de saisie (ex: Nom) -->
+                <TextBox Width="93" Text=""
+                         Height="30" 
+                         Margin="0,0,0,10"
                          VerticalContentAlignment="Center"/>
 
             </StackPanel>
