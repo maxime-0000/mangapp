@@ -27,9 +27,10 @@ namespace mangapp
 			await using var cmd = conn.CreateCommand();
 
 			cmd.CommandText = @"
-                SELECT Id_Utilisateurs, Id_Roles
-                FROM Utilisateurs
-                WHERE mail = @mail AND mdp = @mdp;
+                SELECT Utilisateurs.Id_Utilisateurs, Utilisateurs.Id_Roles, Utilisateurs.mail, Roles.type
+				FROM Utilisateurs 
+				INNER JOIN Roles ON Utilisateurs.Id_Roles = Roles.Id_Roles
+				WHERE Utilisateurs.mail = @mail AND Utilisateurs.mdp = @mdp;
             ";
 
 			cmd.Parameters.AddWithValue("@mail", mail);
@@ -44,6 +45,9 @@ namespace mangapp
 
 				UtilisateurConnecte.IdRole =
 					Convert.ToInt32(reader["Id_Roles"]);
+
+				UtilisateurConnecte.type =
+					reader["type"].ToString() ?? "";
 
 				UtilisateurConnecte.Mail = mail;
 

@@ -54,7 +54,7 @@ namespace mangapp
 
 		public void ActualiserUtilisateur()
 		{
-			Utilisateurtxt.Text = "Utilisateur : " + UtilisateurConnecte.Mail;
+			Utilisateurtxt.Text = "Utilisateur : " + UtilisateurConnecte.Mail + "\nRole : " + UtilisateurConnecte.type;
 		}
 
 
