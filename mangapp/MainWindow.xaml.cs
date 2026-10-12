@@ -19,9 +19,17 @@ namespace mangapp
 		public MainWindow()
 		{
 			InitializeComponent();
-		}
+            ActualiserBoutons();
+        }
 
-		private void BtnRechercher(object sender, RoutedEventArgs e)
+        public void ActualiserBoutons()
+        {
+            BoutonStats.Visibility = UtilisateurConnecte.EstManager()
+                ? Visibility.Visible : Visibility.Collapsed;
+
+        }
+
+        private void BtnRechercher(object sender, RoutedEventArgs e)
 		{
 			MainFrame.Navigate(new Rechercher());
 		}
@@ -33,6 +41,7 @@ namespace mangapp
 
 		private void BtnStats(object sender, RoutedEventArgs e)
 		{
+			
 			if (!UtilisateurConnecte.EstManager())
 			{
 				MessageBox.Show("Cette page est réservée aux managers.");
@@ -56,7 +65,9 @@ namespace mangapp
 		{
 			Utilisateurtxt.Text = "Utilisateur : " + UtilisateurConnecte.Nom +
 				"\nRole : " + UtilisateurConnecte.type;
-		}
+            ActualiserBoutons();
+
+        }
 
 
 	}
