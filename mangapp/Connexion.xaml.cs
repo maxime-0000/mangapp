@@ -45,6 +45,8 @@ namespace mangapp
 				UtilisateurConnecte.IdRole =
 					Convert.ToInt32(reader["Id_Roles"]);
 
+				UtilisateurConnecte.Mail = mail;
+
 				return true;
 			}
 
@@ -69,10 +71,12 @@ namespace mangapp
 
 				if (ok)
 				{
-					MessageBox.Show("Connexion réussie !");
+					MainWindow? fenetre =
+						Application.Current.MainWindow as MainWindow;
 
-					// Remplace Accueil par le nom réel de ta page d'accueil.
-					NavigationService?.Navigate(new Connexion());
+					fenetre?.ActualiserUtilisateur();
+
+					MessageBox.Show("Connexion réussie !");
 				}
 				else
 				{

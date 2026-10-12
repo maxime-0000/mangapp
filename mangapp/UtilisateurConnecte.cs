@@ -1,11 +1,10 @@
-﻿
-namespace mangapp
+﻿namespace mangapp
 {
 	public static class UtilisateurConnecte
 	{
 		public static int IdUtilisateur { get; set; }
-
 		public static int IdRole { get; set; }
+		public static string Mail { get; set; } = "";
 
 		public static bool EstManager()
 		{
@@ -16,6 +15,7 @@ namespace mangapp
 		{
 			IdUtilisateur = 0;
 			IdRole = 0;
+			Mail = "";
 		}
 	}
 }

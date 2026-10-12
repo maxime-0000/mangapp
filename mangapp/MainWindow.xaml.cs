@@ -19,7 +19,6 @@ namespace mangapp
 		public MainWindow()
 		{
 			InitializeComponent();
-
 		}
 
 		private void BtnRechercher(object sender, RoutedEventArgs e)
@@ -53,5 +52,11 @@ namespace mangapp
             MainFrame.Navigate(new Connexion());
         }
 
-    }
+		public void ActualiserUtilisateur()
+		{
+			Utilisateurtxt.Text = "Utilisateur : " + UtilisateurConnecte.Mail;
+		}
+
+
+	}
 }
