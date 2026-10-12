@@ -61,28 +61,25 @@
 				<!-- Barre de navigation latérale -->
 				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,0,312">
 					<!-- Logo ou Titre -->
-					<TextBlock Text="Mangapp" Foreground="Black" FontSize="20" Margin="50" HorizontalAlignment="Center"/>
+					<TextBlock Text="Mangapp" Foreground="Black" FontSize="25" Margin="50" HorizontalAlignment="Center"/>
 
+					
 					<!-- Boutons de navigation -->
 
+					<Button Content="Accueil"  FontSize="18" Click="BtnAccueil" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
+					<Button Content="Rechercher" FontSize="18" Click="BtnRechercher" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-					<!-- fin  test -->
-					<Button Content="Accueil"  FontSize="15" Click="BtnAccueil" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+					<Button Content="Statistique" FontSize="18" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-					<Button Content="Rechercher" FontSize="15" Click="BtnRechercher" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+					<Button Content="Inscrpition" FontSize="18" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-					<Button Content="Statistique" FontSize="15" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
-					<Button Content="Inscrpition" FontSize="15" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
-                    <Button Content="Connexion" FontSize="15" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
+                    <Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 					<TextBlock x:Name="Utilisateurtxt"
            Text="Utilisateur : "
-           FontSize="18"/>
+           FontSize="18" Height="330"/>
 
-                </StackPanel>
+				</StackPanel>
 
 				<!-- Contenu dynamique à droite -->
 				<Frame Grid.Column="1" NavigationUIVisibility="Hidden" Name="MainFrame"/>
