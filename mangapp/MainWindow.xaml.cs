@@ -34,8 +34,14 @@ namespace mangapp
 
 		private void BtnStats(object sender, RoutedEventArgs e)
 		{
+			if (!UtilisateurConnecte.EstManager())
+			{
+				MessageBox.Show("Cette page est réservée aux managers.");
+				return;
+			}
+
 			MainFrame.Navigate(new Statistique());
-		}
+		}		
 
 		private void BtnInscription(object sender, RoutedEventArgs e)
 		{
