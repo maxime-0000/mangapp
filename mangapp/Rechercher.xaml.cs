@@ -59,7 +59,7 @@ namespace mangapp
 
 			// 3. Connexion et requête SQL avec paramètre et l'opérateur LIKE
 			// Remplacez la chaîne de connexion par vos informations réelles ou centralisez-la dans la configuration.
-			string connectionString = "Server=172.16.119.3;Database=mangapp;User=etudiant;Password=etudiant;";
+			string connectionString = "Server=172.16.119.2;Database=mangapp;User=etudiant;Password=etudiant;";
 
 			// Utiliser des noms de colonnes sans accents pour éviter des problèmes SQL fréquents.
 			string query = "SELECT Id_Manga, nom, année, prix, tome, quantité FROM Manga WHERE nom LIKE @recherche;";
