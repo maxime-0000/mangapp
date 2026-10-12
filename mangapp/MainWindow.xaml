@@ -75,7 +75,10 @@
 					<Button Content="Inscription" FontSize="18" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
                     <Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-					<TextBlock x:Name="Utilisateurtxt"
+
+                    <Button x:Name="BoutonGU" Content="Gestion Utilisateur" FontSize="18" Click="BtnGU" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+                    <TextBlock x:Name="Utilisateurtxt"
            Text="Utilisateur : "
            FontSize="18" Height="330"/>
 

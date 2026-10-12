@@ -20,5 +20,6 @@ namespace mangapp
             this.email = email;
             this.type_utilisateur = 1;
         }
+
     }
 }
