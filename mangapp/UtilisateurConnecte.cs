@@ -7,6 +7,8 @@ namespace mangapp
 		public static int IdRole { get; set; }
 		public static string Mail { get; set; } = "";
 		public static string type { get; set; } = "";
+		
+		public static string Nom { get; set; } = "";
 
 		public static bool EstManager()
 		{
