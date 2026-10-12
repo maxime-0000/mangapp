@@ -42,5 +42,10 @@ namespace mangapp
 			MainFrame.Navigate(new Inscription());
 		}
 
-	}
+        private void BtnConnexion(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Connexion());
+        }
+
+    }
 }
