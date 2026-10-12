@@ -6,11 +6,11 @@ namespace mangapp
 {
     public class Utilisateurs
     {
-        private int Id_Utilisateur { get; set; }
+        public int Id_Utilisateur { get; set; }
         public string nom { get; set; }
         public string mdp { get; set; }
         public string email { get; set; }
-        private int type_utilisateur { get; set; }
+        public int type_utilisateur { get; set; }
 
         public Utilisateurs(string nom, string mdp, string email)
         {

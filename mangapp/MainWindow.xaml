@@ -76,8 +76,10 @@
 
 					<Button Content="Inscrpition" FontSize="15" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
+                    <Button Content="Connexion" FontSize="15" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-				</StackPanel>
+
+                </StackPanel>
 
 				<!-- Contenu dynamique à droite -->
 				<Frame Grid.Column="1" NavigationUIVisibility="Hidden" Name="MainFrame"/>
