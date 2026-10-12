@@ -13,26 +13,27 @@
             <RowDefinition Height="149*"/>
             <RowDefinition Height="76*"/>
         </Grid.RowDefinitions>
-        <Border Width="238"
-                Height="440"
-                Background="#F8F9FF"
-                CornerRadius="12"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top" Margin="0,48,0,0" Grid.RowSpan="2">
+		<Border Width="407"
+        Height="803"
+        Background="#F8F9FF"
+        CornerRadius="12"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Margin="118,173,0,0">
 
-            <!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
+			<!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
             <StackPanel Margin="10">
 
                 <!-- ================= NAVBAR (TEXTBLOC CLIQUABLES) ================= -->
 
                 <!-- ================= NAVBAR (TEXTBLOC CLIQUABLES) ================= -->
-                <TextBlock Text="Inscription"
+				<TextBlock Text="Inscription"
                            FontFamily="Segoe UI" 
                            FontSize="14" 
                            Foreground="#2C3E50"
                            Cursor="Hand" Width="68" Height="20"
-                           ><Run Language="fr-fr" Text="Inscription"/><LineBreak/><Run Language="fr-fr"/></TextBlock>
-                <!-- Ligne de séparation sous votre navbar -->
+                           />
+				<!-- Ligne de séparation sous votre navbar -->
                 <Separator Background="#E0E0E0" Margin="0,0,0,15"/>
 
 
