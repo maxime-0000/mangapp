@@ -81,8 +81,6 @@
                     <TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="121" Margin="10,150,0,0" RenderTransformOrigin="0.524,-0.316"/>
 
 				</StackPanel>
-				
-				
 
 				<!-- Contenu dynamique à droite -->
 				<Frame Grid.Column="1" NavigationUIVisibility="Hidden" Name="MainFrame"/>
