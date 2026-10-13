@@ -45,7 +45,7 @@
                        Margin="0,0,0,15"/>
 
                 <!-- Élément 2 : Première zone de saisie (ex: Nom) -->
-                <TextBlock  Text="Nom du manga :" 
+                <TextBlock  Text="Nom de l'utilisateur :" 
        FontFamily="Segoe UI" 
        FontSize="12" 
        Foreground="#555555" 
@@ -57,7 +57,7 @@
                 <Button Content="Rechercher" Width="200" Height="30" Margin="10" Click="BoutonRechercher_Click" />
 
                 <!-- Élément 3 : Deuxième zone de saisie (ex: Prénom) -->
-                <TextBlock Text="Auteur :" 
+                <TextBlock Text="Role :" 
        FontFamily="Segoe UI" 
        FontSize="12" 
        Foreground="#555555" 
@@ -76,7 +76,7 @@
 
 
 
-                <Button Content="Afficher tous les mangas" Width="200" Height="30" Margin="10" Click="BtnAfficherTous_Click" />
+                <Button Content="Afficher tous les utilisateurs" Width="200" Height="30" Margin="10" Click="BtnAfficherTous_Click" />
                 <ListBox x:Name="LstMangas" Height="400" Margin="1"  BorderThickness="0" BorderBrush="Transparent" Background="Transparent"/>
 
             </StackPanel>
