@@ -59,7 +59,7 @@
 				</Grid.ColumnDefinitions>
 
 				<!-- Barre de navigation latérale -->
-				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,0,312">
+				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,0,260">
 					<!-- Logo ou Titre -->
 					<TextBlock Text="Mangapp" Foreground="Black" FontSize="25" Margin="50" HorizontalAlignment="Center"/>
 
@@ -75,11 +75,13 @@
 					<Button Content="Inscription" FontSize="18" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
                     <Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-					<TextBlock x:Name="Utilisateurtxt"
-           Text="Utilisateur : "
-           FontSize="18" Height="330"/>
+
+
+					<TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="358" Margin="60,250,0,0"/>
 
 				</StackPanel>
+				
+				
 
 				<!-- Contenu dynamique à droite -->
 				<Frame Grid.Column="1" NavigationUIVisibility="Hidden" Name="MainFrame"/>
