@@ -145,7 +145,7 @@ namespace mangapp
 
 
 
-        public static async Task<string> GetStockMangaAsync(int idManga)
+        public static async Task<string> GetStockMangaAsync(string nom)
         {
             await using var conn = await GetOpenConnectionAsync();
             await using var cmd = conn.CreateCommand();
@@ -153,10 +153,10 @@ namespace mangapp
             cmd.CommandText = @"
                 SELECT quantité
                 FROM Manga
-                WHERE Id_Manga = @idManga;
+                WHERE nom = @nom;
             ";
 
-            cmd.Parameters.AddWithValue("@idManga", idManga);
+            cmd.Parameters.AddWithValue("@nom", nom);
 
             object? resultat = await cmd.ExecuteScalarAsync();
 

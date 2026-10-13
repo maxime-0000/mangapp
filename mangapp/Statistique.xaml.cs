@@ -55,10 +55,12 @@ namespace mangapp
         {
             try
             {
-                if (!int.TryParse(txtIdManga.Text, out int idManga))
+                string nom = txtIdManga.Text?.Trim();
+
+                if (string.IsNullOrEmpty(nom))
                 {
                     MessageBox.Show(
-                        "Veuillez saisir un ID de manga valide."
+                        "Veuillez saisir le nom du manga."
                     );
 
                     return;
@@ -66,7 +68,7 @@ namespace mangapp
 
 
                 string stock =
-                    await bdd.GetStockMangaAsync(idManga);
+                    await bdd.GetStockMangaAsync(nom);
 
 
                 lblStockManga.Text =
