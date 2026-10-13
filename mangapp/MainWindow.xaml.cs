@@ -27,6 +27,9 @@ namespace mangapp
             BoutonStats.Visibility = UtilisateurConnecte.EstManager()
                 ? Visibility.Visible : Visibility.Collapsed;
 
+            BoutonGU.Visibility = UtilisateurConnecte.EstManager()
+                ? Visibility.Visible : Visibility.Collapsed;
+
         }
 
         private void BtnRechercher(object sender, RoutedEventArgs e)
@@ -61,7 +64,12 @@ namespace mangapp
             MainFrame.Navigate(new Connexion());
         }
 
-		public void ActualiserUtilisateur()
+        private void BtnGU(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new GestionUtilisateur());
+        }
+
+        public void ActualiserUtilisateur()
 		{
 			Utilisateurtxt.Text = "Utilisateur : " + UtilisateurConnecte.Nom +
 				"\nRole : " + UtilisateurConnecte.type;
