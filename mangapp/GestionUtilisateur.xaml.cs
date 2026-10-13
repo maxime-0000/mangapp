@@ -72,6 +72,7 @@ namespace mangapp
         // CHARGER LES UTILISATEURS DEPUIS LA BDD
         // ==============================================
 
+
         private async Task ChargerUtilisateurs(
             string query,
             string? recherche = null)
@@ -86,7 +87,10 @@ namespace mangapp
                     using (MySqlCommand command =
                         new MySqlCommand(query, connection))
                     {
-                        // Paramètres de recherche
+                        // ==============================================
+                        // PARAMÈTRES DE RECHERCHE
+                        // ==============================================
+
                         if (recherche != null)
                         {
                             if (query.Contains("@recherche"))
@@ -103,6 +107,10 @@ namespace mangapp
                         }
 
                         await connection.OpenAsync();
+
+                        // ==============================================
+                        // RÉCUPÉRATION DES UTILISATEURS
+                        // ==============================================
 
                         using (var reader =
                             await command.ExecuteReaderAsync())
@@ -152,14 +160,12 @@ namespace mangapp
                 // AFFICHAGE DANS LA LISTBOX
                 // ==============================================
 
-                LstMangas.Items.Clear();
+                LstMangas.ItemsSource = null;
+                LstMangas.ItemsSource = list;
 
-                foreach (Utilisateurs utilisateur in list)
-                {
-                    LstMangas.Items.Add(
-                        utilisateur.ToString()
-                    );
-                }
+                // ==============================================
+                // VÉRIFICATION DES RÉSULTATS
+                // ==============================================
 
                 if (list.Count == 0)
                 {
@@ -180,5 +186,64 @@ namespace mangapp
                     MessageBoxImage.Error);
             }
         }
+
+
+        private async Task ModifierRole(int idUtilisateur, int nouvelIdRole)
+        {
+            using (MySqlConnection connection =
+                new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = @"UPDATE Utilisateurs
+                         SET Id_Roles = @idRole
+                         WHERE Id_Utilisateurs = @idUtilisateur";
+
+                using (MySqlCommand command =
+                    new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@idRole", nouvelIdRole);
+                    command.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
+
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        private async void ModifierRole_Click(object sender, RoutedEventArgs e)
+        {
+            if (LstMangas.SelectedItem is Utilisateurs utilisateur)
+            {
+                string saisie = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Entrez le nouvel ID du rôle :",
+                    "Modifier le rôle",
+                    utilisateur.Id_Roles.ToString()
+                );
+
+                if (int.TryParse(saisie, out int nouvelIdRole))
+                {
+                    await ModifierRole(
+                        utilisateur.Id_Utilisateur,
+                        nouvelIdRole
+                    );
+
+                    // Actualiser la liste
+                    await ChargerUtilisateurs(
+                    @"SELECT u.Id_Utilisateurs, u.nom, u.mail,
+                      r.Id_Roles, r.type AS libelleRole
+                      FROM Utilisateurs u
+                      INNER JOIN Roles r ON u.Id_Roles = r.Id_Roles");
+                }
+                else if (!string.IsNullOrWhiteSpace(saisie))
+                {
+                    MessageBox.Show("Veuillez saisir un ID de rôle valide.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Sélectionnez un utilisateur.");
+            }
+        }
+
     }
 }

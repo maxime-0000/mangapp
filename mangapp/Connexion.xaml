@@ -47,7 +47,7 @@
                        Margin="0,0,0,15"/>
                 <TextBox x:Name="Mail" Width="94" Text=""
                         Height="16" 
-                        Margin="0,0,0,10"
+                        Margin="0,0,0,15"
                         VerticalContentAlignment="Center" TextChanged="Mail_Utilisateur"/>
 
                 <TextBlock Text="Mot de Passe" 
