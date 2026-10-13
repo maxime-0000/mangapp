@@ -59,7 +59,7 @@
 				</Grid.ColumnDefinitions>
 
 				<!-- Barre de navigation latérale -->
-				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,0,260">
+				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,554,312" Grid.ColumnSpan="2"> 
 					<!-- Logo ou Titre -->
 					<TextBlock Text="Mangapp" Foreground="Black" FontSize="25" Margin="50" HorizontalAlignment="Center"/>
 
@@ -77,7 +77,7 @@
                     <Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
 
-					<TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="358" Margin="60,250,0,0"/>
+					<TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="117" Margin="10,250,0,0"/>
 
 				</StackPanel>
 				
