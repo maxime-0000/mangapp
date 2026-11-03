@@ -11,7 +11,7 @@ namespace mangapp
     public partial class GestionUtilisateur : Page
     {
         private readonly string connectionString =
-            "Server=172.16.119.2;Database=mangapp;User=etudiant;Password=etudiant;";
+            "Server=172.16.119.3;Database=mangapp;User=etudiant;Password=etudiant;";
 
         public GestionUtilisateur()
         {
