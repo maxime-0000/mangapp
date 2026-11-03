@@ -10,10 +10,15 @@
         Background="#1989E9">
 
 	<Viewbox Stretch="Uniform">
+        
+        
+        
 		<Grid Width="768" Height="1024"
               Background="#1989E9">
 
-			<!-- Fond rose en diagonale -->
+
+
+            <!-- Fond rose en diagonale -->
 			<Polygon Points="768,0 768,1024 0,1024"
                      Fill="#FF2164"/>
 
@@ -28,18 +33,23 @@
                        Margin="0,15,0,0"/>
 
 			<!-- Grand rectangle blanc -->
-			<Border Width="437"
-                    Height="803"
-                    Background="#F8F9FF"
-                    CornerRadius="12"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Margin="310,173,0,0"/>
+            <Border Width="437"
+        Height="803"
+        Background="#F8F9FF"
+        CornerRadius="12"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Margin="310,173,0,0">
+
+                <Image Source="\Images\mangapp_accueil.png"
+           Stretch="Fill" Panel.ZIndex="2"/>
+
+            </Border>
 
 
 
 
-			<Grid>
+            <Grid>
 				<!-- Cet élément sera en arrière-plan -->
 				<Rectangle Width="210" Height="160" Panel.ZIndex="1" />
 
