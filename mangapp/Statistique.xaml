@@ -9,9 +9,9 @@
       d:DesignWidth="1200"
       Title="Statistique">
 
-    <Grid Background="Transparent">
+    <Grid Background="Transparent" Margin="0,0,0,-105">
 
-        <Border Width="407"
+        <Border Width="437"
                 Height="803"
                 Background="#F8F9FF"
                 CornerRadius="12"
