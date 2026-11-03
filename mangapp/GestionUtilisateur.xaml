@@ -8,8 +8,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GestionUtilisateur">
 
-    <Grid>
-        <Border Width="407"
+    <Grid Margin="0,0,0,-530">
+        <Border Width="437"
             Height="803"
             Background="#F8F9FF"
             CornerRadius="12"

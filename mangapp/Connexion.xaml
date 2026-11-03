@@ -4,23 +4,22 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:mangapp"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Connexion">
+      mc:Ignorable="d" d:DesignWidth="800"
+      Title="Connexion" Height="1484">
 
-    <Grid>
+    <Grid Margin="0,0,0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="149*"/>
             <RowDefinition Height="76*"/>
         </Grid.RowDefinitions>
-        <Border Width="407"
+        <Border Width="437"
         Height="803"
         Background="#F8F9FF"
         CornerRadius="12"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
         Margin="118,173,0,0">
-            
+
 
             <!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
             <StackPanel Margin="10">
@@ -64,7 +63,7 @@
                          PasswordChanged="MDP_Utilisateur"/>
                 <Button Content="Valider" 
                     Width="45" Click="Button_Valider"/>
-           </StackPanel>
+            </StackPanel>
         </Border>
     </Grid>
 </Page>
