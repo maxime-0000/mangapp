@@ -12,7 +12,7 @@ namespace mangapp
     public partial class Rechercher : Page
     {
         private readonly string connectionString =
-            "Server=172.16.119.2;Port=3306;Database=mangapp;User=etudiant;Password=etudiant;Connection Timeout=10;";
+            "Server=172.16.119.3;Port=3306;Database=mangapp;User=etudiant;Password=etudiant;Connection Timeout=10;";
 
         public Rechercher()
         {
