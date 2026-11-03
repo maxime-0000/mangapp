@@ -245,5 +245,95 @@ namespace mangapp
             }
         }
 
+        private async Task SupprimerUtilisateur(int idUtilisateur)
+        {
+            using (MySqlConnection connection =
+                new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = @"DELETE FROM Utilisateurs
+                         WHERE Id_Utilisateurs = @idUtilisateur";
+
+                using (MySqlCommand command =
+                    new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        private async void SupprimerUtilisateur_Click(object sender, RoutedEventArgs e)
+        {
+            // Seul le manager a le droit de supprimer
+            if (!UtilisateurConnecte.EstManager())
+            {
+                MessageBox.Show(
+                    "Seul un manager peut supprimer un compte.",
+                    "Accès refusé",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            if (LstMangas.SelectedItem is not Utilisateurs utilisateur)
+            {
+                MessageBox.Show("Sélectionnez un utilisateur.");
+                return;
+            }
+
+            // Empêcher le manager de supprimer son propre compte
+            if (utilisateur.Id_Utilisateur == UtilisateurConnecte.IdUtilisateur)
+            {
+                MessageBox.Show("Vous ne pouvez pas supprimer votre propre compte.");
+                return;
+            }
+
+            // Confirmation
+            MessageBoxResult confirmation = MessageBox.Show(
+                $"Voulez-vous vraiment supprimer le compte de {utilisateur.nom} ?\n" +
+                "Cette action est irréversible.",
+                "Confirmation de suppression",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirmation != MessageBoxResult.Yes)
+                return;
+
+            try
+            {
+                await SupprimerUtilisateur(utilisateur.Id_Utilisateur);
+
+                MessageBox.Show("Le compte a bien été supprimé.", "Succès",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Actualiser la liste
+                await ChargerUtilisateurs(
+                    @"SELECT u.Id_Utilisateurs, u.nom, u.mail,
+                     r.Id_Roles, r.type AS libelleRole
+              FROM Utilisateurs u
+              INNER JOIN Roles r ON u.Id_Roles = r.Id_Roles");
+            }
+            catch (MySqlException ex) when (ex.ErrorCode == MySqlErrorCode.RowIsReferenced2)
+            {
+                // Clé étrangère : l'utilisateur est lié à d'autres données
+                MessageBox.Show(
+                    "Impossible de supprimer ce compte : il est encore lié à d'autres données " +
+                    "(commandes, avis, favoris...).",
+                    "Erreur",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Erreur lors de la suppression : " + ex.Message,
+                    "Erreur",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
     }
 }
