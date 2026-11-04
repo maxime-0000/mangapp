@@ -23,6 +23,9 @@ publish/
 # Packages NuGet
 *.nupkg
 packages/
+
+# Configuration locale contenant les secrets de connexion
+mangapp/appsettings.Local.json
  
 # Fichiers temporaires de Windows
 Thumbs.db

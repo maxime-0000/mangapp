@@ -11,6 +11,9 @@
   <ItemGroup>
     <None Remove="Images\logo-mangapp.png" />
     <None Remove="Images\mangapp_accueil.png" />
+    <None Update="appsettings.Local.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
