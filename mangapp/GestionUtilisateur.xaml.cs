@@ -13,7 +13,6 @@ namespace mangapp
         private const int ID_ROLE_CLIENT = 1;   // vérifie l'Id réel dans ta table Roles
         private const int ID_ROLE_MANAGER = 2;  // cohérent avec ton EstManager()
 
-        // Affiche la fenêtre de choix, retourne l'Id du rôle choisi (ou null si annulé)
         private int? DemanderNouveauRole(int idRoleActuel)
         {
             var combo = new ComboBox
