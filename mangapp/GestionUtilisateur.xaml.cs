@@ -10,9 +10,6 @@ namespace mangapp
 {
     public partial class GestionUtilisateur : Page
     {
-        private readonly string connectionString =
-            "Server=172.16.119.3;Database=mangapp;User=etudiant;Password=etudiant;";
-
         private const int ID_ROLE_CLIENT = 1;   // vérifie l'Id réel dans ta table Roles
         private const int ID_ROLE_MANAGER = 2;  // cohérent avec ton EstManager()
 
@@ -156,11 +153,10 @@ namespace mangapp
 
             try
             {
-                using (MySqlConnection connection =
-                    new MySqlConnection(connectionString))
+                await using (MySqlConnection connection =
+                    await bdd.GetOpenConnectionAsync())
                 {
-                    using (MySqlCommand command =
-                        new MySqlCommand(query, connection))
+                    using (MySqlCommand command = connection.CreateCommand())
                     {
                         // ==============================================
                         // PARAMÈTRES DE RECHERCHE
@@ -180,8 +176,6 @@ namespace mangapp
                                     "@role", recherche);
                             }
                         }
-
-                        await connection.OpenAsync();
 
                         // ==============================================
                         // RÉCUPÉRATION DES UTILISATEURS
@@ -265,17 +259,14 @@ namespace mangapp
 
         private async Task ModifierRole(int idUtilisateur, int nouvelIdRole)
         {
-            using (MySqlConnection connection =
-                new MySqlConnection(connectionString))
+            await using (MySqlConnection connection =
+                await bdd.GetOpenConnectionAsync())
             {
-                await connection.OpenAsync();
-
                 string query = @"UPDATE Utilisateurs
                          SET Id_Roles = @idRole
                          WHERE Id_Utilisateurs = @idUtilisateur";
 
-                using (MySqlCommand command =
-                    new MySqlCommand(query, connection))
+                using (MySqlCommand command = connection.CreateCommand())
                 {
                     command.Parameters.AddWithValue("@idRole", nouvelIdRole);
                     command.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
@@ -339,16 +330,13 @@ namespace mangapp
 
         private async Task SupprimerUtilisateur(int idUtilisateur)
         {
-            using (MySqlConnection connection =
-                new MySqlConnection(connectionString))
+            await using (MySqlConnection connection =
+                await bdd.GetOpenConnectionAsync())
             {
-                await connection.OpenAsync();
-
                 string query = @"DELETE FROM Utilisateurs
                          WHERE Id_Utilisateurs = @idUtilisateur";
 
-                using (MySqlCommand command =
-                    new MySqlCommand(query, connection))
+                using (MySqlCommand command = connection.CreateCommand())
                 {
                     command.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
                     await command.ExecuteNonQueryAsync();

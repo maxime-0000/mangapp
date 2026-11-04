@@ -14,9 +14,21 @@ namespace mangapp
             base.OnStartup(e);
             try
             {
-                // Appel direct à bdd.Configure avec chaîne de connexion en dur (exemple).
-                // Remplacez par vos valeurs réelles ou utilisez une variable d'environnement en production.
-                bdd.Configure("Server=172.16.119.3;Port=3306;Database=mangapp;User=etudiant;Password=etudiant;");
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile("appsettings.Local.json", optional: true)
+                    .AddEnvironmentVariables()
+                    .Build();
+
+                var connectionString = Environment.GetEnvironmentVariable("MANGAPP_DB_CONNECTION")
+                    ?? configuration.GetConnectionString("mangapp");
+
+                if (string.IsNullOrWhiteSpace(connectionString))
+                    throw new InvalidOperationException(
+                        "Configurez ConnectionStrings:mangapp dans appsettings.Local.json " +
+                        "ou la variable d'environnement MANGAPP_DB_CONNECTION.");
+
+                bdd.Configure(connectionString);
             }
             catch (Exception ex)
             {

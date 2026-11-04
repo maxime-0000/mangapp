@@ -11,9 +11,6 @@ namespace mangapp
 {
     public partial class Rechercher : Page
     {
-        private readonly string connectionString =
-            "Server=172.16.119.3;Port=3306;Database=mangapp;User=etudiant;Password=etudiant;Connection Timeout=10;";
-
         public Rechercher()
         {
             InitializeComponent();
@@ -90,11 +87,10 @@ namespace mangapp
 
             try
             {
-                using (MySqlConnection connection =
-                    new MySqlConnection(connectionString))
+                await using (MySqlConnection connection =
+                    await bdd.GetOpenConnectionAsync())
                 {
-                    using (MySqlCommand command =
-                        new MySqlCommand(query, connection))
+                    using (MySqlCommand command = connection.CreateCommand())
                     {
                         // Paramètre de recherche
                         if (recherche != null)
@@ -102,9 +98,6 @@ namespace mangapp
                             command.Parameters.AddWithValue(
                                 "@recherche", recherche);
                         }
-
-                        // Ouverture de la connexion
-                        await connection.OpenAsync();
 
                         // Exécution de la requête
                         using (var reader =
