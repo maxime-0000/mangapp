@@ -8,18 +8,18 @@
         MinHeight="750"
         WindowStartupLocation="CenterScreen"
         Background="#1989E9"
-		Icon="Images/logo-mangapp.png">
+		Icon="Images/icon-logo.ico">
 
 	<Viewbox Stretch="Uniform">
-        
-        
-        
+
+
+
 		<Grid Width="768" Height="1024"
               Background="#1989E9">
 
 
 
-            <!-- Fond rose en diagonale -->
+			<!-- Fond rose en diagonale -->
 			<Polygon Points="768,0 768,1024 0,1024"
                      Fill="#FF2164"/>
 
@@ -34,23 +34,23 @@
                        Margin="0,15,0,0"/>
 
 			<!-- Grand rectangle blanc -->
-            <Border Width="437"
+			<Border Width="416"
         Height="803"
         Background="#F8F9FF"
         CornerRadius="12"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
-        Margin="310,173,0,0">
+        Margin="331,173,0,0">
 
-                <Image Source="\Images\mangapp_accueil.png"
+				<Image Source="\Images\mangapp_accueil.png"
            Stretch="Fill" Panel.ZIndex="2"/>
 
-            </Border>
+			</Border>
 
 
 
 
-            <Grid>
+			<Grid>
 				<!-- Cet élément sera en arrière-plan -->
 				<Rectangle Width="210" Height="160" Panel.ZIndex="1" />
 
@@ -70,26 +70,26 @@
 				</Grid.ColumnDefinitions>
 
 				<!-- Barre de navigation latérale -->
-				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,554,301" Grid.ColumnSpan="2"> 
+				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,554,301" Grid.ColumnSpan="2">
 					<!-- Logo ou Titre -->
 					<TextBlock Text="Mangapp" Foreground="Black" FontSize="25" Margin="50" HorizontalAlignment="Center"/>
 
-					
+
 					<!-- Boutons de navigation -->
 
 					<Button Content="Accueil"  FontSize="18" Click="BtnAccueil" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
 					<Button Content="Rechercher" FontSize="18" Click="BtnRechercher" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-                    <Button x:Name="BoutonStats" Content="Statistique" FontSize="18" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15" />
+					<Button x:Name="BoutonStats" Content="Statistique" FontSize="18" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15" />
 
 					<Button Content="Inscription" FontSize="18" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-                    <Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+					<Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-                    <Button x:Name="BoutonGU" Content="Gestion Utilisateur" FontSize="18" Click="BtnGU" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+					<Button x:Name="BoutonGU" Content="Gestion Utilisateur" FontSize="18" Click="BtnGU" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
-                    <TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="121" Margin="10,150,0,0" RenderTransformOrigin="0.524,-0.316"/>
+					<TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="121" Margin="10,150,0,0" RenderTransformOrigin="0.524,-0.316"/>
 
 				</StackPanel>
 
