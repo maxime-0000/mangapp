@@ -13,6 +13,81 @@ namespace mangapp
         private readonly string connectionString =
             "Server=172.16.119.3;Database=mangapp;User=etudiant;Password=etudiant;";
 
+        private const int ID_ROLE_CLIENT = 1;   // vérifie l'Id réel dans ta table Roles
+        private const int ID_ROLE_MANAGER = 2;  // cohérent avec ton EstManager()
+
+        // Affiche la fenêtre de choix, retourne l'Id du rôle choisi (ou null si annulé)
+        private int? DemanderNouveauRole(int idRoleActuel)
+        {
+            var combo = new ComboBox
+            {
+                ItemsSource = new[]
+                {
+            new { Id = ID_ROLE_CLIENT,  Libelle = "Client"  },
+            new { Id = ID_ROLE_MANAGER, Libelle = "Manager" }
+        },
+                DisplayMemberPath = "Libelle",
+                SelectedValuePath = "Id",
+                SelectedValue = idRoleActuel,
+                Margin = new Thickness(0, 5, 0, 15)
+            };
+
+            var btnOk = new Button
+            {
+                Content = "Valider",
+                Width = 80,
+                Margin = new Thickness(0, 0, 8, 0),
+                IsDefault = true
+            };
+
+            var btnAnnuler = new Button
+            {
+                Content = "Annuler",
+                Width = 80,
+                IsCancel = true
+            };
+
+            var boutons = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Children = { btnOk, btnAnnuler }
+            };
+
+            var contenu = new StackPanel
+            {
+                Margin = new Thickness(15),
+                Children =
+        {
+            new TextBlock { Text = "Choisissez le nouveau rôle :" },
+            combo,
+            boutons
+        }
+            };
+
+            var fenetre = new Window
+            {
+                Title = "Changer le rôle",
+                Content = contenu,
+                Width = 280,
+                SizeToContent = SizeToContent.Height,
+                ResizeMode = ResizeMode.NoResize,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = Window.GetWindow(this)
+            };
+
+            int? resultat = null;
+
+            btnOk.Click += (s, e) =>
+            {
+                resultat = (int?)combo.SelectedValue;
+                fenetre.DialogResult = true;
+            };
+
+            fenetre.ShowDialog();
+            return resultat;
+        }
+
         public GestionUtilisateur()
         {
             InitializeComponent();
@@ -210,38 +285,55 @@ namespace mangapp
             }
         }
 
-        private async void ModifierRole_Click(object sender, RoutedEventArgs e)
+        // Affiche le bouton uniquement pour le manager
+        private void BtnChangerRole_Loaded(object sender, RoutedEventArgs e)
         {
-            if (LstMangas.SelectedItem is Utilisateurs utilisateur)
+            if (sender is Button bouton)
             {
-                string saisie = Microsoft.VisualBasic.Interaction.InputBox(
-                    "Entrez le nouvel ID du rôle :",
-                    "Modifier le rôle",
-                    utilisateur.Id_Roles.ToString()
-                );
-
-                if (int.TryParse(saisie, out int nouvelIdRole))
-                {
-                    await ModifierRole(
-                        utilisateur.Id_Utilisateur,
-                        nouvelIdRole
-                    );
-
-                    // Actualiser la liste
-                    await ChargerUtilisateurs(
-                    @"SELECT u.Id_Utilisateurs, u.nom, u.mail,
-                      r.Id_Roles, r.type AS libelleRole
-                      FROM Utilisateurs u
-                      INNER JOIN Roles r ON u.Id_Roles = r.Id_Roles");
-                }
-                else if (!string.IsNullOrWhiteSpace(saisie))
-                {
-                    MessageBox.Show("Veuillez saisir un ID de rôle valide.");
-                }
+                bouton.Visibility = UtilisateurConnecte.EstManager()
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
             }
-            else
+        }
+
+        private async void ChangerRole_Click(object sender, RoutedEventArgs e)
+        {
+            // Sécurité : on revérifie même si le bouton est masqué
+            if (!UtilisateurConnecte.EstManager())
             {
-                MessageBox.Show("Sélectionnez un utilisateur.");
+                MessageBox.Show("Seul un manager peut changer un rôle.");
+                return;
+            }
+
+            if (sender is not Button { DataContext: Utilisateurs utilisateur })
+                return;
+
+            // Un manager ne doit pas se retirer lui-même ses droits
+            if (utilisateur.Id_Utilisateur == UtilisateurConnecte.IdUtilisateur)
+            {
+                MessageBox.Show("Vous ne pouvez pas modifier votre propre rôle.");
+                return;
+            }
+
+            int? nouvelIdRole = DemanderNouveauRole(utilisateur.Id_Roles);
+
+            // Annulé, ou rôle identique : rien à faire
+            if (nouvelIdRole == null || nouvelIdRole == utilisateur.Id_Roles)
+                return;
+
+            try
+            {
+                await ModifierRole(utilisateur.Id_Utilisateur, nouvelIdRole.Value);
+
+                await ChargerUtilisateurs(
+                    @"SELECT u.Id_Utilisateurs, u.nom, u.mail,
+                     r.Id_Roles, r.type AS libelleRole
+              FROM Utilisateurs u
+              INNER JOIN Roles r ON u.Id_Roles = r.Id_Roles");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors du changement de rôle : " + ex.Message);
             }
         }
 
