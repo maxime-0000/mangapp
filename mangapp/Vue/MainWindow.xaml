@@ -42,10 +42,17 @@
         VerticalAlignment="Top"
         Margin="331,173,0,0">
 
-				<Image Source="\Images\mangapp_accueil.png"
-           Stretch="Fill" Panel.ZIndex="2"  />
+                <Image Source="/Images/mangapp_accueil.png"
+       Stretch="Fill"
+       Panel.ZIndex="2">
+                    <Image.Clip>
+                        <RectangleGeometry Rect="0,0,416,803"
+                           RadiusX="12"
+                           RadiusY="12"/>
+                    </Image.Clip>
+                </Image>
 
-			</Border>
+            </Border>
 
 
 
