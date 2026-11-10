@@ -21,9 +21,7 @@
 
             <StackPanel Margin="8">
 
-                <!-- ================================================= -->
                 <!-- TITRE -->
-                <!-- ================================================= -->
 
                 <TextBlock Text="Statistiques"
                            FontFamily="Segoe UI"
@@ -35,10 +33,7 @@
                 <Separator Background="#E0E0E0"
                            Margin="0,0,0,12"/>
 
-
-                <!-- ================================================= -->
-                <!-- MANGAS -->
-                <!-- ================================================= -->
+                <!-- STOCK DES MANGAS -->
 
                 <TextBlock Text="Stock des mangas"
                            FontFamily="Segoe UI"
@@ -46,9 +41,6 @@
                            FontWeight="SemiBold"
                            Foreground="#333333"
                            Margin="0,0,0,8"/>
-
-
-                <!-- Recherche d'un manga précis -->
 
                 <StackPanel Orientation="Horizontal"
                             Margin="0,0,0,8">
@@ -71,40 +63,71 @@
 
                 </StackPanel>
 
-
-                <!-- Résultat manga précis -->
-
                 <TextBlock x:Name="lblStockManga"
                            Text=""
                            FontSize="16"
                            FontWeight="SemiBold"
                            Margin="0,0,0,8"/>
 
+                <!-- BOUTONS DE CONSULTATION ET MODIFICATION -->
 
-                <!-- Vue globale mangas -->
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,8">
 
-                <Button Content="Vue globale des mangas"
-                        Width="188"
-                        Height="30"
-                        HorizontalAlignment="Left"
-                        Click="AfficherMangas_Click"
-                        Margin="0,0,0,8"/>
+                    <Button Content="Vue globale des mangas"
+                            Width="188"
+                            Height="30"
+                            Click="AfficherMangas_Click"
+                            Margin="0,0,10,0"/>
 
+                    <Button Content="Modifier le manga"
+                            Width="150"
+                            Height="30"
+                            Click="ModifierManga_Click"/>
+
+                </StackPanel>
+
+                <!-- AJOUTER / RETIRER DU STOCK -->
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,8">
+
+                    <TextBlock Text="Quantité :"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0"/>
+
+                    <TextBox x:Name="txtGestionQuantite"
+                             Width="55"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,0,10,0"/>
+
+                    <Button Content="Ajouter"
+                            Width="100"
+                            Height="30"
+                            Click="AjouterStock_Click"
+                            Margin="0,0,8,0"/>
+
+                    <Button Content="Retirer"
+                            Width="100"
+                            Height="30"
+                            Click="RetirerStock_Click"/>
+
+                </StackPanel>
 
                 <DataGrid x:Name="dgMangas"
-                          Height="185"
+                          Height="155"
                           AutoGenerateColumns="True"
                           IsReadOnly="True"
-                          Margin="0,0,0,12"/>
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          Margin="0,0,0,10"/>
 
-
-                <!-- ================================================= -->
-                <!-- ZONES -->
-                <!-- ================================================= -->
+                <!-- STOCK DES ZONES -->
 
                 <Separator Background="#E0E0E0"
                            Margin="0,0,0,12"/>
-
 
                 <TextBlock Text="Stock des zones"
                            FontFamily="Segoe UI"
@@ -112,9 +135,6 @@
                            FontWeight="SemiBold"
                            Foreground="#333333"
                            Margin="0,0,0,8"/>
-
-
-                <!-- Recherche d'une zone précise -->
 
                 <StackPanel Orientation="Horizontal"
                             Margin="0,0,0,8">
@@ -137,17 +157,11 @@
 
                 </StackPanel>
 
-
-                <!-- Résultat zone précise -->
-
                 <TextBlock x:Name="lblStockZone"
                            Text=""
                            FontSize="16"
                            FontWeight="SemiBold"
                            Margin="0,0,0,8"/>
-
-
-                <!-- Vue globale zones -->
 
                 <Button Content="Vue globale des zones"
                         Width="188"
@@ -156,9 +170,8 @@
                         Click="AfficherZones_Click"
                         Margin="0,0,0,8"/>
 
-
                 <DataGrid x:Name="dgZones"
-                          Height="185"
+                          Height="170"
                           AutoGenerateColumns="True"
                           IsReadOnly="True"/>
 
