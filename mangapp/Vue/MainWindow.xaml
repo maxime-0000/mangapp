@@ -10,21 +10,21 @@
         Background="#1989E9"
 		Icon="Images/icon-logo.ico">
 
-	<Viewbox Stretch="Uniform">
+    <Grid Background="#1989E9">
+        <Path Fill="#FF2164"
+      Stretch="Fill"
+      Data="M 1677,0 L 1677,894 L 502,894 Z"/> 
+
+        <Viewbox Stretch="Uniform">
 
 
 
-		<Grid Width="768" Height="1024"
-              Background="#1989E9">
+            <Grid Width="768" Height="1024"
+               Background="Transparent">
 
 
-
-			<!-- Fond rose en diagonale -->
-			<Polygon Points="768,0 768,1024 0,1024"
-                     Fill="#FF2164"/>
-
-			<!-- Titre principal -->
-			<TextBlock Text="MANGAP"
+                <!-- Titre principal -->
+                <TextBlock Text="MANGAP"
                        FontFamily="Impact"
                        FontSize="72"
                        FontWeight="Black"
@@ -33,8 +33,8 @@
                        VerticalAlignment="Top"
                        Margin="0,15,0,0"/>
 
-			<!-- Grand rectangle blanc -->
-			<Border Width="416"
+                <!-- Grand rectangle blanc -->
+                <Border Width="416"
         Height="803"
         Background="#F8F9FF"
         CornerRadius="12"
@@ -42,72 +42,74 @@
         VerticalAlignment="Top"
         Margin="331,173,0,0">
 
-                <Image Source="/Images/mangapp_accueil.png"
+                    <Image Source="/Images/mangapp_accueil.png"
        Stretch="Fill"
        Panel.ZIndex="2">
-                    <Image.Clip>
-                        <RectangleGeometry Rect="0,0,416,803"
+                        <Image.Clip>
+                            <RectangleGeometry Rect="0,0,416,803"
                            RadiusX="12"
                            RadiusY="12"/>
-                    </Image.Clip>
-                </Image>
+                        </Image.Clip>
+                    </Image>
 
-            </Border>
-
-
+                </Border>
 
 
-			<Grid>
-				<!-- Cet élément sera en arrière-plan -->
-				<Rectangle Width="210" Height="160" Panel.ZIndex="1" />
 
-				<!-- L'image passe au premier plan grâce au ZIndex plus élevé -->
-				<Image Source="Images/logo-mangapp.png" Width="216" Height="195" Panel.ZIndex="2"                    HorizontalAlignment="Left"
+
+                <Grid>
+                    <!-- Cet élément sera en arrière-plan -->
+                    <Rectangle Width="210" Height="160" Panel.ZIndex="1" />
+
+                    <!-- L'image passe au premier plan grâce au ZIndex plus élevé -->
+                    <Image Source="Images/logo-mangapp.png" Width="216" Height="195" Panel.ZIndex="2"                    HorizontalAlignment="Left"
                    VerticalAlignment="Bottom"
                    Margin="0,0,0,62"/>
-			</Grid>
+                </Grid>
 
 
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<!-- Colonne pour la navbar latérale -->
-					<ColumnDefinition Width="200"/>
-					<!-- Zone de contenu principal -->
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!-- Colonne pour la navbar latérale -->
+                        <ColumnDefinition Width="200"/>
+                        <!-- Zone de contenu principal -->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-				<!-- Barre de navigation latérale -->
-				<StackPanel Grid.Column="0" Background="#1989E9" Margin="0,0,554,301" Grid.ColumnSpan="2">
-					<!-- Logo ou Titre -->
-					<TextBlock Text="Mangapp" Foreground="Black" FontSize="25" Margin="50" HorizontalAlignment="Center"/>
-
-
-					<!-- Boutons de navigation -->
-
-					<Button Content="Accueil"  FontSize="18" Click="BtnAccueil" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
-					<Button Content="Rechercher" FontSize="18" Click="BtnRechercher" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
-					<Button x:Name="BoutonStats" Content="Statistique" FontSize="18" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15" />
-
-					<Button Content="Inscription" FontSize="18" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
-					<Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
-					<Button x:Name="BoutonGU" Content="Gestion Utilisateur" FontSize="18" Click="BtnGU" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
-
-					<TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="121" Margin="10,150,0,0" RenderTransformOrigin="0.524,-0.316"/>
-
-				</StackPanel>
-
-				<!-- Contenu dynamique à droite -->
-				<Frame Grid.Column="1" NavigationUIVisibility="Hidden" Name="MainFrame"/>
-			</Grid>
+                    <!-- Barre de navigation latérale -->
+                    <StackPanel Grid.Column="0" Margin="0,0,554,301" Grid.ColumnSpan="2" >
+                        <!-- Logo ou Titre -->
+                        <TextBlock Text="Mangapp" Foreground="Black" FontSize="25" Margin="50" HorizontalAlignment="Center"/>
 
 
+                        <!-- Boutons de navigation -->
+
+                        <Button Content="Accueil"  FontSize="18" Click="BtnAccueil" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+                        <Button Content="Rechercher" FontSize="18" Click="BtnRechercher" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+                        <Button x:Name="BoutonStats" Content="Statistique" FontSize="18" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15" />
+
+                        <Button Content="Inscription" FontSize="18" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+                        <Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+                        <Button x:Name="BoutonGU" Content="Gestion Utilisateur" FontSize="18" Click="BtnGU" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
+                        <TextBlock x:Name="Utilisateurtxt" Text="Utilisateur non connecté " FontSize="18" Height="121" Margin="10,150,0,0" RenderTransformOrigin="0.524,-0.316"/>
+
+                    </StackPanel>
+
+                    <!-- Contenu dynamique à droite -->
+                    <Frame Grid.Column="1" NavigationUIVisibility="Hidden" Name="MainFrame"/>
+                </Grid>
 
 
-		</Grid>
-	</Viewbox>
+
+
+            </Grid>
+        </Viewbox>
+
+    </Grid>
 
 </Window>
