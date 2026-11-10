@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,20 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using MySqlConnector;
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
 
 namespace mangapp
 {
@@ -17,22 +32,37 @@ namespace mangapp
             InitializeComponent();
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
         // ============================================================
         // VUE GLOBALE DES MANGAS
         // ============================================================
 
         private async void AfficherMangas_Click(
+<<<<<<< HEAD
             object sender, RoutedEventArgs e)
         {
             try
             {
                 var mangas = await GetAllMangaAsync();
+=======
+            object sender,
+            RoutedEventArgs e)
+        {
+            try
+            {
+                var mangas = await bdd.GetAllMangaAsync();
+                
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
                 dgMangas.ItemsSource = mangas;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
                     "Erreur lors du chargement des mangas : "
+<<<<<<< HEAD
                     + ex.Message);
             }
         }
@@ -120,26 +150,55 @@ namespace mangapp
 
             return list;
         }
+=======
+                    + ex.Message
+                );
+            }
+        }
+
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
 
         // ============================================================
         // STOCK D'UN MANGA PRÉCIS
         // ============================================================
 
         private async void VerifierManga_Click(
+<<<<<<< HEAD
             object sender, RoutedEventArgs e)
         {
             try
             {
                 string nom = txtIdManga.Text?.Trim() ?? "";
+=======
+            object sender,
+            RoutedEventArgs e)
+        {
+            try
+            {
+                string nom = txtIdManga.Text?.Trim();
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
 
                 if (string.IsNullOrEmpty(nom))
                 {
                     MessageBox.Show(
+<<<<<<< HEAD
                         "Veuillez saisir le nom du manga.");
                     return;
                 }
 
                 string stock = await GetStockMangaAsync(nom);
+=======
+                        "Veuillez saisir le nom du manga."
+                    );
+
+                    return;
+                }
+
+
+                string stock =
+                    await bdd.GetStockMangaAsync(nom);
+
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
 
                 lblStockManga.Text =
                     "État du stock : " + stock;
@@ -148,6 +207,7 @@ namespace mangapp
             {
                 MessageBox.Show(
                     "Erreur lors de la vérification du stock : "
+<<<<<<< HEAD
                     + ex.Message);
             }
         }
@@ -670,17 +730,33 @@ namespace mangapp
                 }
             }
         }
+=======
+                    + ex.Message
+                );
+            }
+        }
+
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
 
         // ============================================================
         // VUE GLOBALE DES ZONES
         // ============================================================
 
         private async void AfficherZones_Click(
+<<<<<<< HEAD
             object sender, RoutedEventArgs e)
         {
             try
             {
                 var zones = await GetAllZonesAsync();
+=======
+            object sender,
+            RoutedEventArgs e)
+        {
+            try
+            {
+                var zones = await bdd.GetAllZonesAsync();
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
 
                 dgZones.ItemsSource = zones;
             }
@@ -688,11 +764,17 @@ namespace mangapp
             {
                 MessageBox.Show(
                     "Erreur lors du chargement des zones : "
+<<<<<<< HEAD
                     + ex.Message);
+=======
+                    + ex.Message
+                );
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
             }
         }
 
 
+<<<<<<< HEAD
         private async Task<List<Zones>> GetAllZonesAsync()
         {
             var zones = new List<Zones>();
@@ -746,11 +828,14 @@ namespace mangapp
         }
 
 
+=======
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
         // ============================================================
         // STOCK D'UNE ZONE PRÉCISE
         // ============================================================
 
         private async void VerifierZone_Click(
+<<<<<<< HEAD
             object sender, RoutedEventArgs e)
         {
             try
@@ -766,6 +851,26 @@ namespace mangapp
 
                 string stock =
                     await GetStockZoneAsync(idZone);
+=======
+            object sender,
+            RoutedEventArgs e)
+        {
+            try
+            {
+                if (!int.TryParse(txtIdZone.Text, out int idZone))
+                {
+                    MessageBox.Show(
+                        "Veuillez saisir un ID de zone valide."
+                    );
+
+                    return;
+                }
+
+
+                string stock =
+                    await bdd.GetStockZoneAsync(idZone);
+
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
 
                 lblStockZone.Text =
                     "État du stock : " + stock;
@@ -774,6 +879,7 @@ namespace mangapp
             {
                 MessageBox.Show(
                     "Erreur lors de la vérification du stock : "
+<<<<<<< HEAD
                     + ex.Message);
             }
         }
@@ -964,5 +1070,11 @@ namespace mangapp
 
             return null;
         }
+=======
+                    + ex.Message
+                );
+            }
+        }
+>>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
     }
 }
