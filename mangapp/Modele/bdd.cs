@@ -2,8 +2,11 @@
 using System.Threading.Tasks;
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 using System.Globalization;
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
 using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 
@@ -13,6 +16,8 @@ namespace mangapp
     {
         private static string? _connectionString;
 
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
         public static void Configure(string connectionString)
         {
@@ -35,20 +40,31 @@ namespace mangapp
                     $"Chaîne de connexion '{name}' introuvable.");
 =======
         // Configure la chaîne de connexion au démarrage de l'application.
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
         public static void Configure(string connectionString)
         {
-            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+            _connectionString = connectionString
+                ?? throw new ArgumentNullException(nameof(connectionString));
         }
 
-        // Configure à partir d'un IConfiguration (appsettings.json, variables d'env, etc.).
-        public static void ConfigureFromConfiguration(IConfiguration configuration, string name = "mangapp")
+        public static void ConfigureFromConfiguration(
+            IConfiguration configuration,
+            string name = "mangapp")
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            var cs = configuration.GetConnectionString(name) ?? configuration[$"ConnectionStrings:{name}"];
+            var cs = configuration.GetConnectionString(name)
+                ?? configuration[$"ConnectionStrings:{name}"];
+
             if (string.IsNullOrEmpty(cs))
+<<<<<<< HEAD
+                throw new InvalidOperationException(
+                    $"Chaîne de connexion '{name}' introuvable.");
+=======
                 throw new InvalidOperationException($"Chaîne de connexion '{name}' introuvable dans la configuration.");
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
 
             Configure(cs);
         }
@@ -57,9 +73,14 @@ namespace mangapp
         public static void ConfigureFromEnvironment(
             string envVarName = "DEFAULT_CONN")
 =======
+<<<<<<< HEAD
+        public static void ConfigureFromEnvironment(
+            string envVarName = "DEFAULT_CONN")
+=======
         // Configure à partir d'une variable d'environnement contenant directement la chaîne de connexion.
         public static void ConfigureFromEnvironment(string envVarName = "DEFAULT_CONN")
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
         {
             var cs = Environment.GetEnvironmentVariable(envVarName);
 
@@ -68,16 +89,24 @@ namespace mangapp
                 throw new InvalidOperationException(
                     $"Variable d'environnement '{envVarName}' introuvable ou vide.");
 =======
+<<<<<<< HEAD
+                throw new InvalidOperationException(
+                    $"Variable d'environnement '{envVarName}' introuvable ou vide.");
+=======
                 throw new InvalidOperationException($"Variable d'environnement '{envVarName}' introuvable ou vide.");
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
 
             Configure(cs);
         }
 
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
         public static async Task<MySqlConnection> GetOpenConnectionAsync()
         {
             if (string.IsNullOrEmpty(_connectionString))
@@ -85,9 +114,13 @@ namespace mangapp
 <<<<<<< HEAD
                     "Chaîne de connexion non configurée.");
 =======
+<<<<<<< HEAD
+                    "Chaîne de connexion non configurée.");
+=======
                     "Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage."
                 );
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
 
             var conn = new MySqlConnection(_connectionString);
             await conn.OpenAsync();
@@ -95,6 +128,8 @@ namespace mangapp
             return conn;
         }
 
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
 =======
 
@@ -415,6 +450,7 @@ namespace mangapp
 
         // Version synchrone si nécessaire.
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
         public static MySqlConnection GetOpenConnection()
         {
             if (string.IsNullOrEmpty(_connectionString))
@@ -422,9 +458,13 @@ namespace mangapp
 <<<<<<< HEAD
                     "Chaîne de connexion non configurée.");
 =======
+<<<<<<< HEAD
+                    "Chaîne de connexion non configurée.");
+=======
                     "Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage."
                 );
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
 
             var conn = new MySqlConnection(_connectionString);
             conn.Open();
@@ -433,7 +473,10 @@ namespace mangapp
         }
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 
 >>>>>>> f6c204a4c8d3e8c1a1fbc867f54e5faf5e3411b3
+>>>>>>> 0d6031ddbf76f2de5ce0aba77af4bd3ba82f68ed
     }
 }
