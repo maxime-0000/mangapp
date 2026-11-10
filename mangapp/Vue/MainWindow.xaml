@@ -24,7 +24,7 @@
                      Fill="#FF2164"/>
 
 			<!-- Titre principal -->
-			<TextBlock Text="MANGAPP"
+			<TextBlock Text="MANGAP"
                        FontFamily="Impact"
                        FontSize="72"
                        FontWeight="Black"
