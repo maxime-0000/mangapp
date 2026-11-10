@@ -1,16 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\logo-mangapp.png" />
-    <None Remove="Images\mangapp_accueil.png" />
     <None Update="appsettings.Local.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -24,21 +22,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\icon-logo.ico" />
-    <Resource Include="Images\logo-mangapp.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <ApplicationDefinition Include="..\Vue\App.xaml">
+      <Link>App.xaml</Link>
+    </ApplicationDefinition>
+    <Compile Include="..\Controller\*.cs" />
+    <Page Include="..\Vue\*.xaml">
+      <Link>%(Filename)%(Extension)</Link>
+    </Page>
+    <Resource Include="..\Images\icon-logo.ico">
+      <Link>Images\icon-logo.ico</Link>
     </Resource>
-    <Resource Include="Images\mangapp_accueil.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <Resource Include="..\Images\logo-mangapp.png">
+      <Link>Images\logo-mangapp.png</Link>
+    </Resource>
+    <Resource Include="..\Images\mangapp_accueil.png">
+      <Link>Images\mangapp_accueil.png</Link>
     </Resource>
   </ItemGroup>
-
-
-
-  <ItemGroup>
-    <Compile Update="bdd.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-
 </Project>
