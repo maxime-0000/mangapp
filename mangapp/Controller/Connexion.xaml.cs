@@ -21,46 +21,43 @@ namespace mangapp
 		{
 		}
 
-		private async Task<bool> ConnecterUtilisateur(string mail, string mdp)
-		{
-			await using var conn = await bdd.GetOpenConnectionAsync();
-			await using var cmd = conn.CreateCommand();
+        private async Task<bool> ConnecterUtilisateur(string mail, string mdp)
+        {
+            await using var conn = await bdd.GetOpenConnectionAsync();
+            await using var cmd = conn.CreateCommand();
 
-			cmd.CommandText = @"
-                SELECT Utilisateurs.Id_Utilisateurs, Utilisateurs.Id_Roles,
-               Utilisateurs.nom, Utilisateurs.mail, Roles.type
-				FROM Utilisateurs
-				INNER JOIN Roles ON Utilisateurs.Id_Roles = Roles.Id_Roles
-				WHERE Utilisateurs.mail = @mail AND Utilisateurs.mdp = @mdp;"";
-            ";
+            cmd.CommandText = @"
+        SELECT Utilisateurs.Id_Utilisateurs, Utilisateurs.Id_Roles,
+               Utilisateurs.nom, Utilisateurs.mail, Utilisateurs.mdp, Roles.type
+        FROM Utilisateurs
+        INNER JOIN Roles ON Utilisateurs.Id_Roles = Roles.Id_Roles
+        WHERE Utilisateurs.mail = @mail;";
 
-			cmd.Parameters.AddWithValue("@mail", mail);
-			cmd.Parameters.AddWithValue("@mdp", mdp);
+            cmd.Parameters.AddWithValue("@mail", mail);
 
-			await using var reader = await cmd.ExecuteReaderAsync();
+            await using var reader = await cmd.ExecuteReaderAsync();
 
-			if (await reader.ReadAsync())
-			{
-				UtilisateurConnecte.IdUtilisateur =
-					Convert.ToInt32(reader["Id_Utilisateurs"]);
+            if (!await reader.ReadAsync())
+                return false;
 
-				UtilisateurConnecte.IdRole =
-					Convert.ToInt32(reader["Id_Roles"]);
+            string hashStocke = reader["mdp"].ToString() ?? "";
 
-				UtilisateurConnecte.type =
-					reader["type"].ToString() ?? "";
+            // Le calcul PBKDF2 est volontairement lent : on le sort du thread UI
+            bool mdpValide = await Task.Run(() => PasswordHasher.Verify(mdp, hashStocke));
 
-				UtilisateurConnecte.Mail = mail;
+            if (!mdpValide)
+                return false;
 
-                UtilisateurConnecte.Nom = reader["nom"].ToString() ?? "";  
+            UtilisateurConnecte.IdUtilisateur = Convert.ToInt32(reader["Id_Utilisateurs"]);
+            UtilisateurConnecte.IdRole = Convert.ToInt32(reader["Id_Roles"]);
+            UtilisateurConnecte.type = reader["type"].ToString() ?? "";
+            UtilisateurConnecte.Mail = mail;
+            UtilisateurConnecte.Nom = reader["nom"].ToString() ?? "";
 
-                return true;
-			}
+            return true;
+        }
 
-			return false;
-		}
-
-		private async void Button_Valider(object sender, RoutedEventArgs e)
+        private async void Button_Valider(object sender, RoutedEventArgs e)
 		{
 			string mail = Mail.Text.Trim();
 			string mdp = Mot_de_Passe.Password;
