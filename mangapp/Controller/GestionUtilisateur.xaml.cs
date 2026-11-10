@@ -157,6 +157,8 @@ namespace mangapp
                 {
                     using (MySqlCommand command = connection.CreateCommand())
                     {
+                        command.CommandText = query;
+
                         // ==============================================
                         // PARAMÈTRES DE RECHERCHE
                         // ==============================================
@@ -267,6 +269,7 @@ namespace mangapp
 
                 using (MySqlCommand command = connection.CreateCommand())
                 {
+                    command.CommandText = query;
                     command.Parameters.AddWithValue("@idRole", nouvelIdRole);
                     command.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
 
@@ -337,6 +340,7 @@ namespace mangapp
 
                 using (MySqlCommand command = connection.CreateCommand())
                 {
+                    command.CommandText = query;
                     command.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
                     await command.ExecuteNonQueryAsync();
                 }

@@ -92,6 +92,8 @@ namespace mangapp
                 {
                     using (MySqlCommand command = connection.CreateCommand())
                     {
+                        command.CommandText = query;
+
                         // Paramètre de recherche
                         if (recherche != null)
                         {
