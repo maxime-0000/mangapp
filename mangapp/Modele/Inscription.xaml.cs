@@ -13,12 +13,41 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace mangapp
-{
-    /// <summary>
-    /// Logique d'interaction pour Inscription.xaml
-    /// </summary>
+{   
+    public static class PasswordHasher
+    {
+        private const int SaltSize = 16;        
+        private const int KeySize = 32;         
+        private const int Iterations = 600_000; 
+        private static readonly HashAlgorithmName Algorithm = HashAlgorithmName.SHA256;
+
+        public static string Hash(string password)
+        {
+            byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
+            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, Algorithm, KeySize);
+
+            // Format stocké : iterations.sel.hash (en base64)
+            return $"{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
+        }
+
+        public static bool Verify(string password, string storedHash)
+        {
+            var parts = storedHash.Split('.');
+            if (parts.Length != 3) return false;
+
+            int iterations = int.Parse(parts[0]);
+            byte[] salt = Convert.FromBase64String(parts[1]);
+            byte[] expectedHash = Convert.FromBase64String(parts[2]);
+
+            byte[] actualHash = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, Algorithm, expectedHash.Length);
+
+            // Comparaison en temps constant (évite les attaques par timing)
+            return CryptographicOperations.FixedTimeEquals(actualHash, expectedHash);
+        }
+    }
     public partial class Inscription : Page
     {
         public Inscription()
@@ -96,7 +125,8 @@ namespace mangapp
 
             try
             {
-                Utilisateurs utilisateur = new Utilisateurs(nom, mdp, mail);
+                string mdpHashe = await Task.Run(() => PasswordHasher.Hash(mdp));
+                Utilisateurs utilisateur = new Utilisateurs(nom, mdpHashe, mail);
 
                 await AjouterUtilisateur(utilisateur);
 
