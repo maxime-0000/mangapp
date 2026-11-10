@@ -43,7 +43,7 @@
         Margin="331,173,0,0">
 
 				<Image Source="\Images\mangapp_accueil.png"
-           Stretch="Fill" Panel.ZIndex="2"/>
+           Stretch="Fill" Panel.ZIndex="2"  />
 
 			</Border>
 
