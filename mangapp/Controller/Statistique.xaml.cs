@@ -254,7 +254,9 @@ namespace mangapp
                 await using var conn =
                     await bdd.GetOpenConnectionAsync();
 
+                await using var tx = await conn.BeginTransactionAsync();
                 await using var cmd = conn.CreateCommand();
+                cmd.Transaction = tx;
 
                 cmd.CommandText = @"
                     UPDATE Manga
@@ -275,6 +277,9 @@ namespace mangapp
 
                 MessageBox.Show(
                     "Exemplaires ajoutés avec succès !");
+
+                await bdd.AjouterHistoriqueAsync(conn, tx, id.Value, quantite, "Ajout");   // "Retrait" dans RetirerStock_Click
+                await tx.CommitAsync();
 
                 await ActualiserMangasAsync(id.Value);
             }
@@ -312,7 +317,9 @@ namespace mangapp
                 await using var conn =
                     await bdd.GetOpenConnectionAsync();
 
+                await using var tx = await conn.BeginTransactionAsync();
                 await using var cmd = conn.CreateCommand();
+                cmd.Transaction = tx;
 
                 cmd.CommandText = @"
                     UPDATE Manga
@@ -335,6 +342,9 @@ namespace mangapp
 
                 MessageBox.Show(
                     "Exemplaires retirés avec succès !");
+
+                await bdd.AjouterHistoriqueAsync(conn, tx, id.Value, quantite, "Retrait");
+                await tx.CommitAsync();
 
                 await ActualiserMangasAsync(id.Value);
             }

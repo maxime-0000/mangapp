@@ -226,6 +226,61 @@ namespace mangapp
         }
 
         // ============================================================
+        // HISTORIQUE
+        // ============================================================
+
+        public static async Task AjouterHistoriqueAsync(
+    MySqlConnection conn, MySqlTransaction tx,
+    int idManga, int quantite, string typeMouvement)
+        {
+            if (UtilisateurConnecte.IdUtilisateur <= 0)
+                throw new InvalidOperationException("Aucun manager connecté.");
+
+            await using var cmd = conn.CreateCommand();
+            cmd.Transaction = tx;
+            cmd.CommandText = @"
+        INSERT INTO Historique (`date_`, `quantité`, type_mouvement, Id_Utilisateurs, Id_Manga)
+        VALUES (NOW(), @quantite, @type, @idUtilisateur, @idManga);";
+            cmd.Parameters.AddWithValue("@quantite", quantite);
+            cmd.Parameters.AddWithValue("@type", typeMouvement);
+            cmd.Parameters.AddWithValue("@idUtilisateur", UtilisateurConnecte.IdUtilisateur);
+            cmd.Parameters.AddWithValue("@idManga", idManga);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public static async Task<List<Historique>> GetHistoriqueAsync()
+        {
+            var list = new List<Historique>();
+            await using var conn = await GetOpenConnectionAsync();
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+        SELECT h.Id_Historique, h.`date_`, h.`quantité`, h.type_mouvement,
+               h.Id_Utilisateurs, u.nom AS nom_manager,
+               h.Id_Manga, m.nom AS nom_manga
+        FROM Historique h
+        INNER JOIN Manga m        ON m.Id_Manga = h.Id_Manga
+        INNER JOIN Utilisateurs u ON u.Id_Utilisateurs = h.Id_Utilisateurs
+        ORDER BY h.`date_` DESC, h.Id_Historique DESC;";
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                list.Add(new Historique
+                {
+                    Id_Historique = Convert.ToInt32(reader["Id_Historique"]),
+                    Date = Convert.ToDateTime(reader["date_"]),
+                    Quantite = Convert.ToInt32(reader["quantité"]),
+                    Type_mouvement = Convert.ToString(reader["type_mouvement"]) ?? "",
+                    Id_Utilisateur = Convert.ToInt32(reader["Id_Utilisateurs"]),
+                    NomManager = Convert.ToString(reader["nom_manager"]) ?? "",
+                    Id_Manga = Convert.ToInt32(reader["Id_Manga"]),
+                    NomManga = Convert.ToString(reader["nom_manga"]) ?? ""
+                });
+            }
+            return list;
+        }
+
+        // ============================================================
         // STOCK D'UNE ZONE PRÉCISE
         // ============================================================
 
