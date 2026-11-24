@@ -1,56 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Globalization;
-using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 
 namespace mangapp
 {
     internal static class bdd
     {
-        private static string? _connectionString;
-
-        // Configure la chaîne de connexion au démarrage de l'application.
-        public static void Configure(string connectionString)
-        {
-            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
-        }
-
-        // Configure à partir d'un IConfiguration (appsettings.json, variables d'env, etc.).
-        public static void ConfigureFromConfiguration(IConfiguration configuration, string name = "mangapp")
-        {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-
-            var cs = configuration.GetConnectionString(name) ?? configuration[$"ConnectionStrings:{name}"];
-            if (string.IsNullOrEmpty(cs))
-                throw new InvalidOperationException($"Chaîne de connexion '{name}' introuvable dans la configuration.");
-
-            Configure(cs);
-        }
-
-        // Configure à partir d'une variable d'environnement contenant directement la chaîne de connexion.
-        public static void ConfigureFromEnvironment(string envVarName = "DEFAULT_CONN")
-        {
-            var cs = Environment.GetEnvironmentVariable(envVarName);
-
-            if (string.IsNullOrEmpty(cs))
-                throw new InvalidOperationException($"Variable d'environnement '{envVarName}' introuvable ou vide.");
-
-            Configure(cs);
-        }
-
-
         public static async Task<MySqlConnection> GetOpenConnectionAsync()
         {
-            if (string.IsNullOrEmpty(_connectionString))
-                throw new InvalidOperationException(
-                    "Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage."
-                );
-
-            var conn = new MySqlConnection(_connectionString);
-            await conn.OpenAsync();
-
-            return conn;
+            return await ConnexionDB.GetOpenConnectionAsync();
         }
 
 
@@ -226,6 +185,61 @@ namespace mangapp
         }
 
         // ============================================================
+        // HISTORIQUE
+        // ============================================================
+
+        public static async Task AjouterHistoriqueAsync(
+    MySqlConnection conn, MySqlTransaction tx,
+    int idManga, int quantite, string typeMouvement)
+        {
+            if (UtilisateurConnecte.IdUtilisateur <= 0)
+                throw new InvalidOperationException("Aucun manager connecté.");
+
+            await using var cmd = conn.CreateCommand();
+            cmd.Transaction = tx;
+            cmd.CommandText = @"
+        INSERT INTO Historique (`date_`, `quantité`, type_mouvement, Id_Utilisateurs, Id_Manga)
+        VALUES (NOW(), @quantite, @type, @idUtilisateur, @idManga);";
+            cmd.Parameters.AddWithValue("@quantite", quantite);
+            cmd.Parameters.AddWithValue("@type", typeMouvement);
+            cmd.Parameters.AddWithValue("@idUtilisateur", UtilisateurConnecte.IdUtilisateur);
+            cmd.Parameters.AddWithValue("@idManga", idManga);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public static async Task<List<Historique>> GetHistoriqueAsync()
+        {
+            var list = new List<Historique>();
+            await using var conn = await GetOpenConnectionAsync();
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+        SELECT h.Id_Historique, h.`date_`, h.`quantité`, h.type_mouvement,
+               h.Id_Utilisateurs, u.nom AS nom_manager,
+               h.Id_Manga, m.nom AS nom_manga
+        FROM Historique h
+        INNER JOIN Manga m        ON m.Id_Manga = h.Id_Manga
+        INNER JOIN Utilisateurs u ON u.Id_Utilisateurs = h.Id_Utilisateurs
+        ORDER BY h.`date_` DESC, h.Id_Historique DESC;";
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                list.Add(new Historique
+                {
+                    Id_Historique = Convert.ToInt32(reader["Id_Historique"]),
+                    Date = Convert.ToDateTime(reader["date_"]),
+                    Quantite = Convert.ToInt32(reader["quantité"]),
+                    Type_mouvement = Convert.ToString(reader["type_mouvement"]) ?? "",
+                    Id_Utilisateur = Convert.ToInt32(reader["Id_Utilisateurs"]),
+                    NomManager = Convert.ToString(reader["nom_manager"]) ?? "",
+                    Id_Manga = Convert.ToInt32(reader["Id_Manga"]),
+                    NomManga = Convert.ToString(reader["nom_manga"]) ?? ""
+                });
+            }
+            return list;
+        }
+
+        // ============================================================
         // STOCK D'UNE ZONE PRÉCISE
         // ============================================================
 
@@ -372,15 +386,7 @@ namespace mangapp
         // Version synchrone si nécessaire.
         public static MySqlConnection GetOpenConnection()
         {
-            if (string.IsNullOrEmpty(_connectionString))
-                throw new InvalidOperationException(
-                    "Chaîne de connexion non configurée. Appelez bdd.Configure(...) au démarrage."
-                );
-
-            var conn = new MySqlConnection(_connectionString);
-            conn.Open();
-
-            return conn;
+            return ConnexionDB.GetOpenConnection();
         }
 
     }

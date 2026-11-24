@@ -21,11 +21,10 @@
 
             <StackPanel Margin="10">
 
-                <!-- NAVBAR -->
-
-                <TextBlock Text="Accueil"
-                           FontFamily="Segoe UI"
-                           FontSize="14"
+				<!-- ================= NAVBAR (TEXTBLOC CLIQUABLES) ================= -->
+				<TextBlock Text="Recherche" 
+                           FontFamily="Segoe UI" 
+                           FontSize="14" 
                            Foreground="#2C3E50"
                            HorizontalAlignment="Center"
                            Margin="0,5,0,10"/>

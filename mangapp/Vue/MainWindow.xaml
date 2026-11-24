@@ -90,6 +90,8 @@
 
                         <Button x:Name="BoutonStats" Content="Statistique" FontSize="18" Click="BtnStats" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15" />
 
+                        <Button x:Name="BoutonHistorique" Content="Historique" FontSize="18" Click="BtnHistorique" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
+
                         <Button Content="Inscription" FontSize="18" Click="BtnInscription" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>
 
                         <Button Content="Connexion" FontSize="18" Click="BtnConnexion" Background="Transparent" Foreground="Black" BorderThickness="0" Padding="15"/>

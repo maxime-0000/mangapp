@@ -27,6 +27,9 @@ namespace mangapp
             BoutonStats.Visibility = UtilisateurConnecte.EstManager()
                 ? Visibility.Visible : Visibility.Collapsed;
 
+			BoutonHistorique.Visibility = UtilisateurConnecte.EstManager()
+				? Visibility.Visible : Visibility.Collapsed;
+
             BoutonGU.Visibility = UtilisateurConnecte.EstManager()
                 ? Visibility.Visible : Visibility.Collapsed;
 
@@ -77,6 +80,14 @@ namespace mangapp
 
         }
 
-
-	}
+        private void BtnHistorique(object sender, RoutedEventArgs e)
+        {
+            if (!UtilisateurConnecte.EstManager())
+            {
+                MessageBox.Show("Cette page est réservée aux managers.");
+                return;
+            }
+            MainFrame.Navigate(new PageHistorique());
+        }
+    }
 }
