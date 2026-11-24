@@ -1,15 +1,16 @@
 ﻿<Page x:Class="mangapp.Rechercher"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:mangapp"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
       Title="Rechercher">
 
+    <Grid Margin="0,0,0,-537">
 
-	<Grid Margin="0,0,0,-537">
         <Border Width="437"
                 Height="803"
                 Background="#F8F9FF"
@@ -18,8 +19,7 @@
                 VerticalAlignment="Top"
                 Margin="118,173,0,0">
 
-			<!-- Le StackPanel contient maintenant vos TextBlock de navigation ET votre formulaire -->
-			<StackPanel Margin="10">
+            <StackPanel Margin="10">
 
 				<!-- ================= NAVBAR (TEXTBLOC CLIQUABLES) ================= -->
 				<TextBlock Text="Recherche" 
@@ -29,60 +29,87 @@
                            HorizontalAlignment="Center"
                            Margin="0,5,0,10"/>
 
+                <Separator Background="Black"
+                           Margin="0,0,0,15"/>
 
+                <!-- TITRE -->
 
-				<!-- Ligne de séparation sous votre navbar -->
-				<Separator Background="Black" Margin="0,0,0,15"/>
-
-
-				<!-- ================= VOTRE FORMULAIRE D'ORIGINE ================= -->
-				<!-- Élément 1 : Votre texte de titre -->
-
-				<TextBlock Text="Recherche" 
-                           FontFamily="Segoe UI" 
-                           FontSize="16" 
+                <TextBlock Text="Recherche"
+                           FontFamily="Segoe UI"
+                           FontSize="16"
                            Foreground="#333333"
                            HorizontalAlignment="Center"
                            Margin="0,0,0,15"/>
 
-				<!-- Élément 2 : Première zone de saisie (ex: Nom) -->
-				<TextBlock  Text="Nom du manga :" 
-           FontFamily="Segoe UI" 
-           FontSize="12" 
-           Foreground="#555555" 
-           Margin="10,0,0,2" />
-				<TextBox Width="93" Name="TxtRechercher" Text=""
-                         Height="30" 
-                         Margin="0,0,0,10"
-                         VerticalContentAlignment="Center"/>
-				<Button Content="Rechercher" Width="200" Height="30" Margin="10" Click="BoutonRechercher_Click" />
+                <!-- CHOIX DU FILTRE -->
 
-				<!-- Élément 3 : Deuxième zone de saisie (ex: Prénom) -->
-				<TextBlock Text="Auteur :" 
-           FontFamily="Segoe UI" 
-           FontSize="12" 
-           Foreground="#555555" 
-           Margin="10,0,0,2" />
-            <TextBox Width="93" x:Name="TxtAuteur" Text=""
-                             Height="30"
-                             VerticalContentAlignment="Center"/>
-            <Button Content="Rechercher" Width="200" Height="30" Margin="10" Click="BoutonRechercherAuteur_Click" />
+                <TextBlock Text="Rechercher par :"
+                           FontFamily="Segoe UI"
+                           FontSize="12"
+                           Foreground="#555555"
+                           Margin="10,0,0,5"/>
 
+                <ComboBox x:Name="CmbFiltre"
+                          Width="250"
+                          Height="30"
+                          SelectedIndex="0"
+                          Margin="0,0,0,15">
 
-				<Separator Background="White" Margin="0,0,0,15"/>
+                    <ComboBoxItem Content="Nom du manga"/>
+                    <ComboBoxItem Content="Auteur"/>
+                    <ComboBoxItem Content="Tome"/>
+                    <ComboBoxItem Content="Genre"/>
+                    <ComboBoxItem Content="Éditeur"/>
+                    <ComboBoxItem Content="Année de publication"/>
 
-				
+                </ComboBox>
 
-				<Separator Background="Black" Margin="0,0,0,15"/>
+                <!-- BARRE DE RECHERCHE UNIQUE -->
 
+                <TextBlock Text="Votre recherche :"
+                           FontFamily="Segoe UI"
+                           FontSize="12"
+                           Foreground="#555555"
+                           Margin="10,0,0,5"/>
 
+                <TextBox x:Name="TxtRechercher"
+                         Width="250"
+                         Height="30"
+                         VerticalContentAlignment="Center"
+                         Margin="0,0,0,10"/>
 
-                    <Button Content="Afficher tous les mangas" Width="200" Height="30" Margin="10" Click="BtnAfficherTous_Click" />
-				<ListBox x:Name="LstMangas" Height="400" Margin="1"  BorderThickness="0" BorderBrush="Transparent" Background="Transparent"/>
+                <!-- BOUTON RECHERCHER -->
 
-                </StackPanel>
-		</Border>
-	</Grid>
+                <Button Content="Rechercher"
+                        Width="200"
+                        Height="30"
+                        Margin="10"
+                        Click="BoutonRechercher_Click"/>
+
+                <Separator Background="Black"
+                           Margin="0,10,0,15"/>
+
+                <!-- AFFICHER TOUS LES MANGAS -->
+
+                <Button Content="Afficher tous les mangas"
+                        Width="200"
+                        Height="30"
+                        Margin="10"
+                        Click="BtnAfficherTous_Click"/>
+
+                <!-- RESULTATS -->
+
+                <ListBox x:Name="LstMangas"
+                         Height="400"
+                         Margin="1"
+                         BorderThickness="0"
+                         BorderBrush="Transparent"
+                         Background="Transparent"/>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
 
 </Page>
-
