@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -32,7 +31,7 @@ namespace mangapp
         }
 
         // ==============================================
-        // RECHERCHER UN MANGA PAR NOM
+        // RECHERCHE AVEC FILTRE
         // ==============================================
 
         private async void BoutonRechercher_Click(
@@ -40,39 +39,133 @@ namespace mangapp
         {
             string texteSaisi = TxtRechercher.Text.Trim();
 
-            string query = @"
-                SELECT Id_Manga, nom, année,
-                       prix, tome, quantité
-                FROM Manga
-                WHERE nom LIKE @recherche";
+            if (string.IsNullOrWhiteSpace(texteSaisi))
+            {
+                MessageBox.Show(
+                    "Veuillez saisir une recherche.");
 
-            await ChargerMangas(
-                query,
-                "%" + texteSaisi + "%"
-            );
-        }
+                return;
+            }
 
-        // ==============================================
-        // RECHERCHER UN MANGA PAR AUTEUR
-        // ==============================================
+            string query;
 
-        private async void BoutonRechercherAuteur_Click(
-            object sender, RoutedEventArgs e)
-        {
-            string texteSaisi = TxtAuteur.Text.Trim();
+            object recherche = "%" + texteSaisi + "%";
 
-            string query = @"
-                SELECT m.Id_Manga, m.nom, m.année,
-                       m.prix, m.tome, m.quantité
-                FROM Manga m
-                INNER JOIN Auteur a
-                    ON m.Id_Auteur = a.Id_Auteur
-                WHERE a.nom LIKE @recherche";
+            switch (CmbFiltre.SelectedIndex)
+            {
+                // RECHERCHE PAR NOM
 
-            await ChargerMangas(
-                query,
-                "%" + texteSaisi + "%"
-            );
+                case 0:
+
+                    query = @"
+                        SELECT Id_Manga, nom, année,
+                               prix, tome, quantité
+                        FROM Manga
+                        WHERE nom LIKE @recherche";
+
+                    break;
+
+                // RECHERCHE PAR AUTEUR
+
+                case 1:
+
+                    query = @"
+                        SELECT m.Id_Manga, m.nom, m.année,
+                               m.prix, m.tome, m.quantité
+                        FROM Manga m
+                        INNER JOIN Auteur a
+                            ON m.Id_Auteur = a.Id_Auteur
+                        WHERE a.nom LIKE @recherche";
+
+                    break;
+
+                // RECHERCHE PAR TOME
+
+                case 2:
+
+                    if (!int.TryParse(texteSaisi, out int tome)
+                        || tome <= 0)
+                    {
+                        MessageBox.Show(
+                            "Veuillez saisir un tome valide.");
+
+                        return;
+                    }
+
+                    recherche = tome;
+
+                    query = @"
+                        SELECT Id_Manga, nom, année,
+                               prix, tome, quantité
+                        FROM Manga
+                        WHERE tome = @recherche";
+
+                    break;
+
+                // RECHERCHE PAR GENRE
+
+                case 3:
+
+                    query = @"
+                        SELECT m.Id_Manga, m.nom, m.année,
+                        m.prix, m.tome, m.quantité,
+                        m.Id_Genre, g.`type`
+                        FROM Manga m
+                        INNER JOIN Genre g
+                        ON m.Id_Genre = g.Id_Genre
+                    WHERE g.type LIKE @recherche";
+
+                    break;
+
+                // RECHERCHE PAR EDITEUR
+
+                case 4:
+
+                    query = @"
+                         SELECT m.Id_Manga, m.nom, m.année,
+                        m.prix, m.tome, m.quantité,
+                        m.Id_Genre, g.libelle
+                        FROM Manga m
+                        INNER JOIN Editeur g
+                        ON m.Id_Genre = g.Id_Editeur
+                    WHERE g.libelle LIKE @recherche";
+
+                    break;
+
+                // RECHERCHE PAR ANNEE
+
+                case 5:
+
+                    if (!int.TryParse(texteSaisi, out int annee)
+                        || annee < 1 || annee > 9999)
+                    {
+                        MessageBox.Show(
+                            "Veuillez saisir une année valide.");
+
+                        return;
+                    }
+
+                    recherche = annee;
+
+                    query = @"
+                        SELECT Id_Manga, nom, année,
+                               prix, tome, quantité
+                        FROM Manga
+                        WHERE année = @recherche";
+
+                    break;
+
+                // AUCUN FILTRE SELECTIONNE
+
+                default:
+
+                    MessageBox.Show(
+                        "Veuillez sélectionner un filtre.");
+
+                    return;
+            }
+
+            await ChargerMangas(query, recherche);
         }
 
         // ==============================================
@@ -81,7 +174,7 @@ namespace mangapp
 
         private async Task ChargerMangas(
             string query,
-            string? recherche = null)
+            object? recherche = null)
         {
             List<Manga> list = new List<Manga>();
 
@@ -90,11 +183,13 @@ namespace mangapp
                 await using (MySqlConnection connection =
                     await bdd.GetOpenConnectionAsync())
                 {
-                    using (MySqlCommand command = connection.CreateCommand())
+                    using (MySqlCommand command =
+                        connection.CreateCommand())
                     {
                         command.CommandText = query;
 
                         // Paramètre de recherche
+
                         if (recherche != null)
                         {
                             command.Parameters.AddWithValue(
@@ -102,12 +197,12 @@ namespace mangapp
                         }
 
                         // Exécution de la requête
+
                         using (var reader =
                             await command.ExecuteReaderAsync())
                         {
                             while (await reader.ReadAsync())
                             {
-                                // Informations du manga
                                 int id = SafeGetInt(
                                     reader, "Id_Manga");
 
@@ -134,7 +229,6 @@ namespace mangapp
                                 int tome = SafeGetInt(
                                     reader, "tome");
 
-                                // Création de l'objet Manga
                                 Manga manga = new Manga(
                                     nom,
                                     id,
@@ -151,7 +245,7 @@ namespace mangapp
                 }
 
                 // ==============================================
-                // AFFICHAGE DES RÉSULTATS
+                // AFFICHAGE DES RESULTATS
                 // ==============================================
 
                 LstMangas.ItemsSource = null;
@@ -185,7 +279,7 @@ namespace mangapp
         }
 
         // ==============================================
-        // CONVERSION SÉCURISÉE EN INT
+        // CONVERSION SECURISEE EN INT
         // ==============================================
 
         private int SafeGetInt(
@@ -209,7 +303,7 @@ namespace mangapp
         }
 
         // ==============================================
-        // CONVERSION SÉCURISÉE EN DOUBLE
+        // CONVERSION SECURISEE EN DOUBLE
         // ==============================================
 
         private double SafeGetDouble(
@@ -252,7 +346,7 @@ namespace mangapp
         }
 
         // ==============================================
-        // CONVERSION SÉCURISÉE EN STRING
+        // CONVERSION SECURISEE EN STRING
         // ==============================================
 
         private string SafeGetString(
